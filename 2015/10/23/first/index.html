@@ -24,11 +24,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        广州地铁计价器｜Mr.Woo&#39;s blog
+        Hello My Blog｜Mr.Woo&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2017/06/07/hello/">
+    <link rel="canonical" href="http://yoursite.com/2015/10/23/first/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -162,21 +162,20 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>广州地铁计价器</h1>
+                    <h1>Hello My Blog</h1>
+                    
+                    <h2 class="subheading">hi, I&#39;m Mr.Woo</h2>
                     
                     <span class="meta">
                          作者 Mr.Woo
                         <span>
-                          日期 2017-06-07
+                          日期 2015-10-23
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Subway"
-                           title="Subway">Subway</a>
-                        
-                        <a class="tag" href="/tags/#广州地铁计价器"
-                           title="广州地铁计价器">广州地铁计价器</a>
+                        <a class="tag" href="/tags/#Blog"
+                           title="Blog">Blog</a>
                         
                     </div>
                 </div>
@@ -185,7 +184,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            广州地铁计价器
+            Hello My Blog
         </span>
     </div>
 </header>
@@ -196,52 +195,19 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h1 id="GZ-subway"><a href="#GZ-subway" class="headerlink" title="GZ-subway"></a>GZ-subway</h1><h2 id="广州地铁计价器"><a href="#广州地铁计价器" class="headerlink" title="广州地铁计价器"></a>广州地铁计价器</h2><h3 id="功能展示"><a href="#功能展示" class="headerlink" title="功能展示"></a>功能展示</h3><h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><ol>
-<li>由以上功能展示可看到，我们可以随意切换路线并选择自己要的站点，然后点击查询会返回给用户单程信息以及票价。整个功能的具体逻辑也就这里，从中不难发现，我们所需的地铁数据应该得有的，而且还有所需的各站点之间的距离。（<strong>当然我这里是利用地铁各站点间的距离来模拟实现查询票价，如果各开发者有更好的idea，欢迎交流</strong> ）<br>所以本人采用了json数据格式，保存了所需的各站点名称以及距离。<br>（当然各站点的距离也不是我这个程序猿能获取到的，大部分数据只是模拟效果，其中3号线北延段距离是本人所了解到的真实实际距离，其余为虚拟数据）</li>
-</ol>
-<pre><code>var subwayData = {
-&quot;1号线&quot;: [&quot;西朗&quot;, &quot;坑口&quot;, &quot;花地湾&quot;, &quot;芳村&quot;, &quot;黄沙&quot;, &quot;长寿路&quot;, &quot;陈家祠&quot;, &quot;西门口&quot;, &quot;公元前&quot;, &quot;农讲所&quot;, &quot;烈士陵园&quot;, &quot;东山口&quot;, &quot;杨箕&quot;, &quot;体育西路&quot;, &quot;体育中心&quot;, &quot;广州东站&quot;],
-&quot;2号线&quot;: [&quot;广州南站&quot;, &quot;石壁&quot;, &quot;会江&quot;, &quot;南浦&quot;, &quot;洛溪&quot;, &quot;南洲&quot;, &quot;东晓南&quot;, &quot;江泰路&quot;, &quot;昌岗&quot;, &quot;江南西&quot;, &quot;市二宫&quot;, &quot;海珠广场&quot;, &quot;公元前&quot;, &quot;纪念堂&quot;, &quot;越秀公园&quot;, &quot;广州火车站&quot;, &quot;三元里&quot;, &quot;飞翔公园&quot;, &quot;白云公园&quot;, &quot;白云文化广场&quot;, &quot;萧岗&quot;, &quot;江夏&quot;, &quot;黄边&quot;, &quot;嘉禾望岗&quot;],
-&quot;3号线&quot;: [&quot;番禺广场&quot;, &quot;市桥&quot;, &quot;汉溪长隆&quot;, &quot;大石&quot;, &quot;厦滘&quot;, &quot;沥滘&quot;, &quot;大塘&quot;, &quot;客村&quot;, &quot;广州塔&quot;, &quot;珠江新城&quot;, &quot;体育西路&quot;, &quot;石牌桥&quot;, &quot;岗顶&quot;, &quot;华师&quot;, &quot;五山&quot;, &quot;天河客运站&quot;],
-&quot;3号线(北)&quot;: [&quot;体育西路&quot;, &quot;林和西&quot;, &quot;广州东站&quot;, &quot;燕塘&quot;, &quot;梅花园&quot;, &quot;京溪南方医院&quot;, &quot;同和&quot;, &quot;永泰&quot;, &quot;白云大道北&quot;, &quot;嘉禾望岗&quot;, &quot;龙归&quot;, &quot;人和&quot;, &quot;机场南站&quot;],
-
-var edgesData = [
-[&quot;西朗&quot;, &quot;坑口&quot;, 1.2], [&quot;坑口&quot;, &quot;花地湾&quot;, 1.2], [&quot;花地湾&quot;, &quot;芳村&quot;, 1.2], [&quot;芳村&quot;, &quot;黄沙&quot;, 1.2], [&quot;黄沙&quot;, &quot;长寿路&quot;, 1.2], [&quot;长寿路&quot;, &quot;陈家祠&quot;, 1.2], [&quot;陈家祠&quot;, &quot;西门口&quot;, 1.2], [&quot;西门口&quot;, &quot;公元前&quot;, 1.2], [&quot;公元前&quot;, &quot;农讲所&quot;, 1.2], [&quot;农讲所&quot;, &quot;烈士陵园&quot;, 1.2], [&quot;烈士陵园&quot;, &quot;东山口&quot;, 1.2], [&quot;东山口&quot;, &quot;杨箕&quot;, 1.2], [&quot;杨箕&quot;, &quot;体育西路&quot;, 1.2], [&quot;体育西路&quot;, &quot;体育中心&quot;, 1.2], [&quot;体育中心&quot;, &quot;广州东站&quot;, 1.2],
-[&quot;广州南站&quot;, &quot;石壁&quot;, 1.2], [&quot;石壁&quot;, &quot;会江&quot;, 1.2], [&quot;会江&quot;, &quot;南浦&quot;, 1.2], [&quot;南浦&quot;, &quot;洛溪&quot;, 1.2], [&quot;洛溪&quot;, &quot;南洲&quot;, 1.2], [&quot;南洲&quot;, &quot;东晓南&quot;, 1.2], [&quot;东晓南&quot;, &quot;江泰路&quot;, 1.2], [&quot;江泰路&quot;, &quot;昌岗&quot;, 1.2], [&quot;昌岗&quot;, &quot;江南西&quot;, 1.2], [&quot;江南西&quot;, &quot;市二宫&quot;, 1.2], [&quot;市二宫&quot;, &quot;海珠广场&quot;, 1.2], [&quot;海珠广场&quot;, &quot;公元前&quot;, 1.2], [&quot;公元前&quot;, &quot;纪念堂&quot;, 1.2], [&quot;纪念堂&quot;, &quot;越秀公园&quot;, 1.2], [&quot;越秀公园&quot;, &quot;广州火车站&quot;, 1.2], [&quot;广州火车站&quot;, &quot;三元里&quot;, 1.2], [&quot;三元里&quot;, &quot;飞翔公园&quot;, 1.2], [&quot;飞翔公园&quot;, &quot;白云公园&quot;, 1.2], [&quot;白云公园&quot;, &quot;白云文化广场&quot;, 1.2], [&quot;白云文化广场&quot;, &quot;萧岗&quot;, 1.2], [&quot;萧岗&quot;, &quot;江夏&quot;, 1.2], [&quot;江夏&quot;, &quot;黄边&quot;, 1.2], [&quot;黄边&quot;, &quot;嘉禾望岗&quot;, 1.2],
-[&quot;番禺广场&quot;, &quot;市桥&quot;, 1.2], [&quot;市桥&quot;, &quot;汉溪长隆&quot;, 1.2], [&quot;汉溪长隆&quot;, &quot;大石&quot;, 1.2], [&quot;大石&quot;, &quot;厦滘&quot;, 1.2], [&quot;厦滘&quot;, &quot;沥滘&quot;, 1.2], [&quot;沥滘&quot;, &quot;大塘&quot;, 1.2], [&quot;大塘&quot;, &quot;客村&quot;, 1.2], [&quot;客村&quot;, &quot;广州塔&quot;, 1.2], [&quot;广州塔&quot;, &quot;珠江新城&quot;, 1.2], [&quot;珠江新城&quot;, &quot;体育西路&quot;, 1.2], [&quot;体育西路&quot;, &quot;石牌桥&quot;, 1.2], [&quot;石牌桥&quot;, &quot;岗顶&quot;, 1.2], [&quot;岗顶&quot;, &quot;华师&quot;, 1.2], [&quot;华师&quot;, &quot;五山&quot;, 1.2], [&quot;五山&quot;, &quot;天河客运站&quot;, 1.2],
-[&quot;体育西路&quot;, &quot;林和西&quot;, 1.2], [&quot;林和西&quot;, &quot;广州东站&quot;, 1.2], [&quot;广州东站&quot;, &quot;燕塘&quot;, 1.2], [&quot;燕塘&quot;, &quot;梅花园&quot;, 1.8], [&quot;梅花园&quot;, &quot;京溪南方医院&quot;, 1.4], [&quot;京溪南方医院&quot;, &quot;同和&quot;, 1.3], [&quot;同和&quot;, &quot;永泰&quot;, 2], [&quot;永泰&quot;, &quot;白云大道北&quot;, 0.8], [&quot;白云大道北&quot;, &quot;嘉禾望岗&quot;, 1.7], [&quot;嘉禾望岗&quot;, &quot;龙归&quot;, 6.5], [&quot;龙归&quot;, &quot;人和&quot;, 5.2], [&quot;人和&quot;, &quot;机场南站&quot;, 5.6],
-</code></pre><ol>
-<li><p>得到了以上具体的数据后，我们便可以先实现点击选择具体线路以及站点的效果了：</p>
-<pre><code>$j(this).parent().parent().find(&quot;em&quot;).html($j(this).html()),
-$j(this).parent().parent().find(&quot;ul&quot;).hide();
-</code></pre></li>
-<li><p>得到了我们想要去的线路以及站点后，我们便可以点击查询具体的数值了。其实，在我们选择站点的时候，我们有时会出现这样一种情况，那就是点击选择了相同的站点。我们知道在实际中，选择了相同的站点就相当于在原地不动，这是没有任何意义的。不过在我们开发中，要对这种情况进行处理：</p>
-<pre><code>if(start == end)
-return $j(&quot;.op-subway-ts&quot;).html(&quot;亲，您真的需要坐地铁么？&quot;).show();
-false;
-</code></pre></li>
-<li><p>处理了相同站点的情况后，剩下的就只是选择不同站点了，那么不同的站点之间的路程以及费用又该怎么计算呢？这时，本人运用了狄克斯特拉算法（关于该算法之后会在本人博客中详细介绍），获取到想要两个站点之间的最短路径：</p>
-<pre><code>var distance = Dijkstra.shortestPath(start,end),
-</code></pre><p>当然我这是基于最优用户体验来思考，因为一般人就会选择要去地方的最短距离，如果有人说闲得没事，想寻求最长距离，那么就得用另一番逻辑来思考了。得到了我们需要的最短路径后，便可求出具体的费用以及距离了。</p>
-</li>
-<li><p>在计算具体费用时，本人查阅了最新地铁收费标准，计算出真实费用：</p>
-<pre><code>if(distance&lt;=4)  return 2;
-if(distance&lt;=12) return 2+ Math.ceil((distance-4)/4);
-if(distance&lt;=24) return 4+ Math.ceil((distance-12)/6);
-else return 6+Math.ceil((distance-24)/8)
-</code></pre></li>
-</ol>
+                <p>Hello World！</p>
+<p>在今天本人写下的第一条博文。</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    
-                    <li class="next">
+                    <li class="previous">
                         <a href="/2017/06/07/hello-world/" data-toggle="tooltip" data-placement="top"
-                           title="Hello World">下一篇 >></a>
+                           title="Hello World"><< 上一篇</a>
                     </li>
+                    
                     
                 </ul>
 
@@ -275,7 +241,7 @@ else return 6+Math.ceil((distance-24)/8)
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GZ-subway"><span class="toc-text">GZ-subway</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#广州地铁计价器"><span class="toc-text">广州地铁计价器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#功能展示"><span class="toc-text">功能展示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现方法"><span class="toc-text">实现方法</span></a></li></ol></li></ol></li></ol>
+                    
                 </div>
             </div>
         </div>
@@ -297,11 +263,8 @@ else return 6+Math.ceil((distance-24)/8)
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Subway"
-                           title="Subway">Subway</a>
-                        
-                        <a class="tag" href="/tags/#广州地铁计价器"
-                           title="广州地铁计价器">广州地铁计价器</a>
+                        <a class="tag" href="/tags/#Blog"
+                           title="Blog">Blog</a>
                         
                     </div>
                 </section>

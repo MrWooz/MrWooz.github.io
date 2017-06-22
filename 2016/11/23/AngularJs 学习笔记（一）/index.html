@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello My Blog｜Mr.Woo&#39;s blog
+        AngularJs 学习笔记（一）｜Mr.Woo&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2015/10/23/first/">
+    <link rel="canonical" href="http://yoursite.com/2016/11/23/AngularJs 学习笔记（一）/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -138,13 +138,13 @@
 
 
 <img class="wechat-title-img"
-     src="http://orfhfxx0r.bkt.clouddn.com/image/1.jpg">
+     src="http://orfhfxx0r.bkt.clouddn.com/angular/angular_logo.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://orfhfxx0r.bkt.clouddn.com/image/1.jpg')
+        background-image: url('http://orfhfxx0r.bkt.clouddn.com/angular/angular_logo.jpg')
     }
 
     
@@ -155,20 +155,23 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello My Blog</h1>
+                    <h1>AngularJs 学习笔记（一）</h1>
                     
-                    <h2 class="subheading">hi, I&#39;m Mr.Woo</h2>
+                    <h2 class="subheading">个人笔记整理，有误欢迎指正</h2>
                     
                     <span class="meta">
                          作者 Mr.Woo
                         <span>
-                          日期 2015-10-23
+                          日期 2016-11-23
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#AngularJs"
+                           title="AngularJs">AngularJs</a>
+                        
+                        <a class="tag" href="/tags/#学习笔记"
+                           title="学习笔记">学习笔记</a>
                         
                     </div>
                 </div>
@@ -177,7 +180,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello My Blog
+            AngularJs 学习笔记（一）
         </span>
     </div>
 </header>
@@ -188,8 +191,47 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Hello World！</p>
-<p>在今天本人写下的第一条博文。</p>
+                <h1 id="AngularJs-学习笔记（一）"><a href="#AngularJs-学习笔记（一）" class="headerlink" title="AngularJs 学习笔记（一）"></a>AngularJs 学习笔记（一）</h1><h3 id="AngularJs简介"><a href="#AngularJs简介" class="headerlink" title="AngularJs简介"></a>AngularJs简介</h3><hr>
+<p>AngularJS是一款由Google公司开发维护的前端MVC框架MVW其克服了HTML在构建应用上的诸多不足，从而降低了开发成本提升了开发效率。</p>
+<p>AngularJS与我们之前学习的jQuery是有一定的区别的，jQuery更准确来说只一个类库（类库指的是一系列函数的集合）以DOM做为驱动（核心），而AngularJS则一个框架（诸多类库的集合）以数据和逻辑做为驱动（核心）。框架对开发的流程和模式做了约束，开发者遵照约束进行开发，更注重的实际的业务逻辑。</p>
+<p>AngularJS特性核心的是：模块化、双向数据绑定、语义化标签、依赖注入等。</p>
+<blockquote>
+<p>顺便解释下什么是MVC概念</p>
+<blockquote>
+<p>M:(Model模型)–&gt;处理数据</p>
+<p>V：(View 视图)–&gt;展示数据–&gt;html</p>
+<p>C：（Controller控制器）–&gt;协调view与Model之间的关系,也是两者之间的桥梁</p>
+</blockquote>
+<p>用一种业务逻辑,数据,界面显示分离的方法组织代码,将业务逻辑聚集到一个部件里面.在改进和个性化定制界面及用户交互的同时不需要重新编写业务逻辑.</p>
+<p>采用这种开发模式为合理组织代码提供了方便、降低了代码间的耦合度、功能结构清晰可见。</p>
+</blockquote>
+<h3 id="体验AngularJs"><a href="#体验AngularJs" class="headerlink" title="体验AngularJs"></a>体验AngularJs</h3><hr>
+<p>1.引入angular.js文件</p>
+<p>2.创建模块</p>
+<p>AngularJS提供了一个全局对象angular，在此全局对象下存在若干的办法，其中angular.module()方法用来定义一个模块。</p>
+<blockquote>
+<p>第一个参数：模块名称</p>
+<p>第二个参数：依赖模块名称</p>
+</blockquote>
+<pre><code>var app = angular.module(&apos;app&apos;,[]);
+</code></pre><p>3.创建控制器 （$scope就是模型）</p>
+<p>控制器（controller）作为连接模型（model）和视图（view）的桥梁存在，所以当我们定义好了控制器以后也就定义好了模型和视图。</p>
+<blockquote>
+<p>第一个参数：控制器的名称</p>
+<p>第二个参数：依赖的服务 （例如：$scope、$http）</p>
+</blockquote>
+<pre><code>app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,function ($scope) {
+ $scope.name = &apos;woo&apos;;
+ }]);
+</code></pre><p>4.绑定模块</p>
+<p>  一个页面可以绑定多个模块，但是模块之间不能嵌套。通常一个html里面只对应一个模块 app.</p>
+<pre><code>&lt;body ng-app=&quot;app&quot;&gt;
+</code></pre><p>5.绑定控制器 一个模块可以绑定多个控制器 </p>
+<pre><code>&lt;ul ng-controller=&quot;wooController&quot; &gt;
+</code></pre><p>6.展示数据</p>
+<pre><code>&lt;li&gt;{{name}}&lt;/li&gt;
+</code></pre><p><img src="http://orfhfxx0r.bkt.clouddn.com/angular/angular%E6%A8%A1%E5%9D%97.png" alt=""></p>
 
                 <hr>
                 
@@ -197,10 +239,15 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/11/23/AngularJs 学习笔记（一）/" data-toggle="tooltip" data-placement="top"
-                           title="AngularJs 学习笔记（一）"><< 上一篇</a>
+                        <a href="/2016/11/28/AngularJs 学习笔记（二）/" data-toggle="tooltip" data-placement="top"
+                           title="AngularJs 学习笔记（二）"><< 上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2015/10/23/first/" data-toggle="tooltip" data-placement="top"
+                           title="Hello My Blog">下一篇 >></a>
+                    </li>
                     
                 </ul>
 
@@ -234,7 +281,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AngularJs-学习笔记（一）"><span class="toc-text">AngularJs 学习笔记（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AngularJs简介"><span class="toc-text">AngularJs简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#体验AngularJs"><span class="toc-text">体验AngularJs</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -256,8 +303,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#AngularJs"
+                           title="AngularJs">AngularJs</a>
+                        
+                        <a class="tag" href="/tags/#学习笔记"
+                           title="学习笔记">学习笔记</a>
                         
                     </div>
                 </section>

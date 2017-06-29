@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="baidu-site-verification" content="z0Wp9C7kGD" />
+    <meta name="google-site-verification" content="FCXHNhynKn8Iu6z8wvW_4axOK4W4yk5JaPf8coOO-hk" />
+    <meta name="description" content="���θ��˲���">
+    <meta name="keyword" content="���� ���� ǰ��">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Mr.Woo" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        AngularJs 学习笔记（三）｜Mr.Woo&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2016/12/04/AngularJs 学习笔记（三）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://orfhfxx0r.bkt.clouddn.com/image/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Mr.Woo
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/myworks/">个人作品</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://orfhfxx0r.bkt.clouddn.com/angular/angular_logo.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://orfhfxx0r.bkt.clouddn.com/angular/angular_logo.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>AngularJs 学习笔记（三）</h1>
+                    
+                    <h2 class="subheading">个人笔记整理，有误欢迎指正</h2>
+                    
+                    <span class="meta">
+                         作者 Mr.Woo
+                        <span>
+                          日期 2016-12-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#AngularJs"
+                           title="AngularJs">AngularJs</a>
+                        
+                        <a class="tag" href="/tags/#学习笔记"
+                           title="学习笔记">学习笔记</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            AngularJs 学习笔记（三）
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="AngularJs-学习笔记（三）"><a href="#AngularJs-学习笔记（三）" class="headerlink" title="AngularJs 学习笔记（三）"></a>AngularJs 学习笔记（三）</h1><hr>
+<h3 id="一、作用域"><a href="#一、作用域" class="headerlink" title="一、作用域"></a>一、作用域</h3><ul>
+<li>先找自己，再找父级</li>
+<li>子级可以访问父级的元素</li>
+<li>父级不能访问子级的元素。如果在该作用域下元素没有值，则该值为空不显示</li>
+<li><p>每个控制器又都对应一个模型，也就是$scope对象，不同层级控制器下的$scope便产生了作用域</p>
+<pre><code>&lt;script&gt;
+ var app = angular.module(&apos;app&apos;,[]);
+ 通过ng-controller指令可以创建一个子作用域，
+ 新建的作用域可以访问父作用域的数据
+ app.controller(&apos;wooController1&apos;,[&apos;$scope&apos;,function ($scope) {
+     $scope.name = &quot;woo1&quot;;
+ }]);
+ app.controller(&apos;wooController2&apos;,[&apos;$scope&apos;,function ($scope) {
+     $scope.name = &quot;woo2&quot;;
+ }])
+&lt;/script&gt;
+</code></pre></li>
+</ul>
+<p>ng-init初始化全局变量</p>
+<ul>
+<li>一个AngularJs的应用，在启动时会自动创建一个根作用域$rootScope,这个根作用域在整个应用范围（ng-app所在标签以内）都是可以被访问到的</li>
+<li>使用ng-init=“属性名称=属性值” </li>
+<li><p>使用ng-init创建的就是根作用域</p>
+<pre><code>&lt;body ng-app=&quot;app&quot; ng-init=&quot;name=&apos;init&apos;&quot;&gt;
+&lt;div ng-controller=&quot;wooController2&quot;&gt;
+     &lt;p&gt;----{{name}}&lt;/p&gt;
+     &lt;ul ng-controller=&quot;wooController1&quot;&gt;
+         &lt;li&gt;{{name}}&lt;/li&gt;
+     &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre></li>
+</ul>
+<h3 id="二、过滤器"><a href="#二、过滤器" class="headerlink" title="二、过滤器"></a>二、过滤器</h3><p>过滤器是用来了格式化数据用的</p>
+<p>angular内置了9个过滤器</p>
+<ol>
+<li>currency：将数值格式化为货币格式</li>
+<li>date：日期格式化，年（y）、月（M）、日（d）、星期（EEEE/EEE）、时（H/h）、分（m）、秒（s）、毫秒（.sss），也可以组合到一起使用。</li>
+<li>filter：在给定数组中选择满足条件的一个子集，并返回一个新的数组，其条件可以是一个字符串、对象、函数</li>
+<li>josn：将javascript对象转成JSON字符串</li>
+<li>limitTo：取出字符串或数组的前（正数）几位或后（负数）几位</li>
+<li>lowercase：将文本转换成小写格式</li>
+<li>uppercase：将文本转换成大写格式</li>
+<li>number：数字格式化，可控制小位位数</li>
+<li>orderBy：对数组进行排序，第2个参数可控制方向</li>
+</ol>
+<pre><code>app.controller(&apos;wooController&apos;,[&apos;$scope&apos;,function ($scope) {
+
+     $scope.price = 20;
+     $scope.nowDate = new Date();
+     $scope.course = [&apos;html&apos;,&apos;js&apos;,&apos;css&apos;];
+     $scope.student = [{name:&apos;zs&apos;,age:18},{name:&apos;ls&apos;,age:20},
+    {name:&apos;ww&apos;,age:10}];
+     $scope.str = &apos;hello world&apos;;
+     $scope.num = &quot;10&quot;;
+}])
+&lt;body ng-app=&quot;app&quot; ng-controller=&quot;xmgController&quot;&gt;
+     管道符 上次的结果当作下一次的参数进行传递
+     过滤器的本质是一个方法
+     会自动把|前面的内容，当作方法的第一个参数传入
+     如果想要自己手动传参 使用：来进行传递
+
+&lt;p&gt;{{price|currency:'&'}}&lt;/p&gt;
+&lt;p&gt;{{nowDate|date:'yyyy/MM/dd h:m:s'}}&lt;/p&gt;
+&lt;p&gt;{{course|filter:'s'}}&lt;/p&gt;
+&lt;p&gt;{{student|json}}&lt;/p&gt;
+&lt;p&gt;{{student|limitTo:-2}}&lt;/p&gt;
+&lt;p&gt;{{str|uppercase|lowercase}}&lt;/p&gt;
+&lt;p&gt;{{student|orderBy:'age':false}}&lt;/p&gt; true 是降序 false是升序
+&lt;p&gt;{{num|number:2}}&lt;/p&gt; 在num当中不能出现非数字
+</code></pre><p>自定义过滤器</p>
+<blockquote>
+<p>AngularJs内置过滤器外，还可以根据业务需要自定义过滤器</p>
+<p>通过模块对象实例提供的filter方法自定义过滤器</p>
+</blockquote>
+<pre><code>&lt;script&gt;
+ var app = angular.module(&apos;app&apos;,[]);
+ 自定义控制器
+ app.controller(&apos;wooController&apos;,[&apos;$scope&apos;,function ($scope) {
+     $scope.name = &quot;121&quot;;
+     $scope.str = &quot;hello&quot;;
+ }]);
+
+ 自定义指令
+ app.directive(&apos;directiveName&apos;,[function () {
+     return {
+     };
+ }]);
+
+ 自定义过滤器
+ 第一个参数：过滤器的名称
+ 第二个参数：回调函数
+ 返回值为一个函数（input 为自动传入的数据，它为管道符前面的内容）
+ app.filter(&apos;filterName&apos;,[function () {
+     return function (input) {
+          console.log(&apos;hello&apos;+ input);
+     }
+ }]);
+
+ app.filter(&apos;firstUppcase&apos;,[function () {
+     return function (input) {
+         slice:从指定的位置，截取到末尾
+         return input[0].toUpperCase()+input.slice(1)
+     };
+ }]);
+&lt;/script&gt;
+
+&lt;body ng-app=&quot;app&quot; ng-controller=&quot;wooController&quot;&gt;
+&lt;p&gt;{{name|filterName}}&lt;/p&gt;
+&lt;p&gt;{{str|firstUppcase}}&lt;/p&gt;
+&lt;/body&gt;
+</code></pre><h3 id="三、依赖注入"><a href="#三、依赖注入" class="headerlink" title="三、依赖注入"></a>三、依赖注入</h3><ul>
+<li>AngularJs采用模块化的方式组织代码，将一些通用逻辑封装成一个对象或函数，实现最大程度的复用</li>
+<li>这导致了使用者和被使用者之间存在依赖关系</li>
+<li>所谓依赖注入是指在运行时自动查找依赖关系</li>
+<li>然后将查找到依赖传递给使用者的一种机制</li>
+</ul>
+<p>依赖注入分为两种：</p>
+<p>1.行内式注入</p>
+<p>以数组形式明确声明依赖，数组元素都是包含依赖名称的字符串，数组最后一个元素是依赖注入的目标函数</p>
+<p>推荐使用行内式注入</p>
+<p>2.推断式注入</p>
+<p>没有明确声明依赖，AngularJs会将函数参数名称当成是依赖的名称</p>
+<p>这种方式会带来一个问题，当代码经过压缩后函数的参数被压缩，这样便会造成依赖无法找到</p>
+<pre><code>&lt;script&gt;
+ var app = angular.module(&apos;app&apos;,[]);
+ 自定义控制器
+ 1.行内式注入
+ app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;$http&apos;,function ($scope,$http) {
+     $scope.name = &quot;121&quot;;
+     $scope.str = &quot;hello&quot;;
+ }]);
+
+ 2.推断式注入
+ app.controller(&apos;wooController&apos;,function ($scope,$http) {
+     $scope.name = &apos;woo&apos;;
+ });
+&lt;/script&gt;
+</code></pre><h3 id="四、服务"><a href="#四、服务" class="headerlink" title="四、服务"></a>四、服务</h3><p>服务是一个对象或函数，对外提供特定的功能</p>
+<p>常见内置服务有：</p>
+<ul>
+<li>$location</li>
+<li>$timeout</li>
+<li>$filter</li>
+<li>$log</li>
+<li><p>$http</p>
+</li>
+<li><p>同时还支持多种快捷方式如$http.get()、$http.post()、$http.json</p>
+</li>
+</ul>
+<blockquote>
+<p>$location服务</p>
+</blockquote>
+<ol>
+<li>$location服务解析在浏览器地址栏中的URL（基于window.location）并且让URL在你的应用中可用。</li>
+<li>$localtion.ablUrl()  获取绝对路径</li>
+<li>$localtion.protocol() 获取协议</li>
+<li>$localtion.port()  端口</li>
+<li>$localtion.path() 当前路径</li>
+<li>$localtion.hash  获取hash值</li>
+<li>$localtion.search 查询字符串</li>
+</ol>
+<pre><code>网络地址
+* http:// 协议
+* localhost:主机地址 www.baidu.com 139.129.256.5
+* ：8080 端口号
+ * /code/06-$location服务.html 文件路径
+ * # 锚点
+* ?name=xmg&amp;&amp;age=10 传的参数
+
+可以查看原生的网络地址
+for ( var key in location) {
+ console.log(key +&apos;=&gt;&apos;+location[key]);
+}
+
+
+
+var app = angular.module(&apos;app&apos;,[]);
+app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;$location&apos;,function ($scope,$location) {
+     $scope.absUrl = $location.absUrl();
+     获取的是锚点后面的地址
+     $scope.url = $location.url();
+     端口号
+     $scope.port = $location.port();
+     主机名
+     $scope.host = $location.host();
+     获取的锚点。从第二个锚点开始的值
+     $scope.hash = $location.hash();
+     参数
+     $scope.search = $location.search();
+}]);
+
+ &lt;p&gt;{{absUrl}}&lt;/p&gt;
+ &lt;p&gt;{{url}}&lt;/p&gt;
+ &lt;p&gt;{{port}}&lt;/p&gt;
+ &lt;p&gt;{{host}}&lt;/p&gt;
+ &lt;p&gt;{{hash}}&lt;/p&gt;
+ &lt;p&gt;{{search}}&lt;/p&gt;
+</code></pre><blockquote>
+<p>$timeout和$interval服务</p>
+</blockquote>
+<p>$timeout&amp;$interval对原生Javascript中的setTimeout和setInterval进行了封装。</p>
+<pre><code>var app = angular.module(&apos;app&apos;,[]);
+
+app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;$timeout&apos;,&apos;$interval&apos;,function ($scope,$timeout,$interva
+l) {
+         $scope.name = &apos;woo&apos;;
+        延时执行任务
+        $timeout(function () {
+            $scope.name=&quot;xmg123&quot;;
+         },1000);
+
+         隔指定时间执行任务
+         var timer = $interval(function () {
+             $scope.dateTime = new Date();
+         },1000);
+
+         点击按钮停止定时器
+         $scope.stop = function () {
+             alert(&apos;aaa&apos;);
+             停止指定的定时器
+              $interval.cancel(timer);
+         }
+ }]);
+
+&lt;p&gt;{{name}}&lt;/p&gt;
+&lt;p&gt;{{dateTime | date:'yyyy-MM-dd h:m:s'}}&lt;/p&gt;
+&lt;button ng-click=&quot;stop()&quot;&gt;停止&lt;/button&gt;
+</code></pre><blockquote>
+<p>$filter服务</p>
+</blockquote>
+<ul>
+<li>行内式注入</li>
+<li>不要在view中过多的处理业务逻辑，应该在控制器当中处理完毕后，直接显示到view</li>
+</ul>
+<pre><code>app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;$filter&apos;,function ($scope,$filter) {
+     $scope.price = 20;
+     $scope.str = &quot;hello&quot;;
+
+     使用$filter获取9个服务中的一个
+     获取后再去使用获取的筛选
+     var currency = $filter(&apos;currency&apos;);
+     $scope.price = currency($scope.price);
+
+     var uppcase = $filter(&apos;uppercase&apos;);
+     $scope.str = uppcase($scope.str);
+
+     可以直接在后面使用
+     $scope.str = $filter(&apos;limitTo&apos;)($scope.str,2);
+}]);
+</code></pre><blockquote>
+<p>$log服务</p>
+</blockquote>
+<pre><code>var app = angular.module(&apos;app&apos;,[]);
+app.controller(&apos;wooController&apos;,[&apos;$log&apos;,function ($log) {
+     $log.log(&apos;woo&apos;);
+     $log.info(&apos;woo&apos;);
+     $log.warn(&apos;woo&apos;);
+     $log.error(&apos;woo&apos;);
+     $log.debug(&apos;woo&apos;);
+}]);
+</code></pre><blockquote>
+<p>$http服务</p>
+</blockquote>
+<pre><code>var app = angular.module(&apos;app&apos;,[]);
+ app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;$http&apos;,function ($scope,$http) {
+     $http({
+         url: &apos;get.php&apos;, 请求地址
+         method:&apos;get&apos;, 请求方法
+        params:{ get方式传递参数 在传递过程中，会自动帮你转成
+                 get.php?name=woo
+
+               传递时-&gt;name:woo
+               name:&apos;woo&apos;
+              }
+     }).success(function (res) {  注意：这里的success和error是在angular1.5之前的，1.6是用then跟catch
+          alert(res); 成功时回调
+     }).error(function(error){
+          失败时回调
+     });
+
+     $http({
+          url: &apos;post.php&apos;, 请求地址
+          method:&apos;post&apos;,   请求方法
+         post必须得要设置请求头
+         headers:{
+         &apos;Content-Type&apos;:&apos;application/x-www-formurlencoded&apos;
+         },
+
+          //data:{ data:｛｝ 传参形式 在传递数据时，是以json来传递的
+             name:&quot;woo&quot; json串
+          }
+
+          data:&apos;name=woo&apos;  formdata
+     }).success(function (res) {
+         alert(res);
+     }).error(function (res) {
+
+     });
+
+     当设置请求头的时候为application/x-www-form-urlencoded是以soap 以对象形式传递
+
+         SOAP: 以对象形式传递
+         RESTFUL:json串形式进行传递
+     }]);
+</code></pre><p>自定义服务分为三种：</p>
+<p>1.factory</p>
+<pre><code>app.factory(&apos;show&apos;,function () {
+ return function () { 直接以方法来调用
+   alert(&quot;hello&quot;);
+ };
+ function show1() {
+     alert(&quot;show1&quot;);
+    逻辑
+ }
+ function show2() {
+     alert(&quot;show2&quot;);
+ }
+ return {
+     show1:show1,
+     show2:show2
+ }
+});
+
+
+自定义控制器
+使用自己定义的服务要注入进来
+app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;$http&apos;,&apos;show&apos;,function ($scope,$http,show) {
+ show.show1();
+ show.show2();
+}]);
+</code></pre><p>2.service</p>
+<pre><code>如果要依赖其他的服务，那么就把其他的服务注入进来
+ app.service(&apos;showTime&apos;,[&apos;$filter&apos;,function ($filter) {
+    里面所有的功能要使用this来定义
+     this.cur_date = function () {
+         var cur_date = new Date();
+         var date = $filter(&apos;date&apos;);
+         return date(cur_date,&apos;yyyy-MM-dd h:m:s&apos;);
+     };
+     this.sayHello = function () {
+     alert(&quot;hello world&quot;);
+     }
+ }]);
+
+ service自定义服务，所有的方法都是以this的方式定义
+ var app = angular.module(&apos;app&apos;,[]);
+
+ 同样也是要注入自定义的服务
+ app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;showTime&apos;,function ($scope,showTime) {
+     $scope.cur_date = showTime.cur_date();
+
+     调用服务
+     showTime.sayHello();
+ }]);
+
+&lt;body ng-app=&quot;app&quot; ng-controller=&quot;wooController&quot;&gt;
+&lt;h1&gt;{{cur_date}}&lt;/h1&gt;
+</code></pre><p>3.value</p>
+<ul>
+<li>value表现形式上是一个服务</li>
+<li>本质上可看做是一个常量</li>
+<li>常量：其值始终保持不变的量</li>
+<li><p>变量：其值可以发生改变的量</p>
+<p>  var app = angular.module(‘app’,[]);<br>  注入服务<br>  app.controller(‘wooController’,<br>  [‘$scope’,’key’,’version’,function ($scope,key,version) {</p>
+<pre><code>$scope.key = key;
+$scope.version = version;
+</code></pre><p>  }]);<br>  使用服务<br>  app.value(‘version’,’1.0’);<br>  app.value(‘key’,’woo’);</p>
+</li>
+</ul>
+<h3 id="五、跨域原理"><a href="#五、跨域原理" class="headerlink" title="五、跨域原理"></a>五、跨域原理</h3><p>1.什么是跨域？</p>
+<blockquote>
+<p>不同域名之间进行数据的访问</p>
+</blockquote>
+<p>2.使用jsonp</p>
+<blockquote>
+<p>Ajax与jsonp有关系吗</p>
+<blockquote>
+<p>jsonp与ajax是没有关系的。ajax是使用js内置的对象进行网络请求获取数据，是一种技术。jsonp是使用script当中的src来获取数据</p>
+</blockquote>
+<p>为什么会有跨域？</p>
+<blockquote>
+<p>为了数据的安全</p>
+</blockquote>
+<p>是谁导致了跨域？</p>
+<blockquote>
+<p>是浏览器。<br>浏览器为了保证数据的安全，不允许直接使用别的域名数据。浏览器做了一个拦截。其实数据已经响应到了浏览器。浏览器没有把它给我们</p>
+</blockquote>
+</blockquote>
+<p>解决跨域方式：</p>
+<p>使用script当中src方式进行数据请求</p>
+<ol>
+<li><p>在前端定义一个function</p>
+<pre><code>function fn(res) {
+ alert(res);
+ }
+</code></pre></li>
+<li><p>通过创建一个<code>&lt;script src=&gt;</code>向服务器发送一个请求。src当中去请求要跨域的网络地址，src的地址当中要添加一个参数callback，并且值就是声明的方法名称<br><code>&lt;script src=&quot;get.php?callback=fn&quot;&gt;&lt;/script&gt;</code></p>
+</li>
+<li><p>服务器接受callback值<br><code>$fn = $_GET[&#39;callback&#39;]</code></p>
+</li>
+<li><p>在返回时，在接收参数这后面拼接一个括号。如果想要传递数据，就把数据放到括号当中。<code>echo $fn.&#39;(&quot;xmg123&quot;)&#39;;</code></p>
+</li>
+<li><p>就会执行前端定义的function  <code>fn(&quot;hello&quot;);</code></p>
+</li>
+</ol>
+<blockquote>
+<p>跨域只有前端处理，是没有办法达到效果的。必须得要结合后端一起，来去处理</p>
+</blockquote>
+<p>使用Angular $http实现跨域</p>
+<pre><code>$http({
+    url:&apos;&apos;,
+    method:&apos;jsonp&apos;,
+    params:{
+
+        pin:&apos;&apos;,
+        uuid: -1,
+        callback:&apos;JSON_CALLBACK&apos; 
+        //当为jsonp时，会自动帮你添加一个script
+        //帮你生成一个方法（angular.callbacks._0）
+    }
+})
+</code></pre><p>使用php做桥接实现跨域</p>
+<pre><code>echo file_get_contents(&apos;https://xxxxxxx&apos;)
+</code></pre>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/12/06/AngularJs 学习笔记（四）/" data-toggle="tooltip" data-placement="top"
+                           title="AngularJs 学习笔记（四）"><< 上一篇</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/11/28/AngularJs 学习笔记（二）/" data-toggle="tooltip" data-placement="top"
+                           title="AngularJs 学习笔记（二）">下一篇 >></a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAyMS81NTkw">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AngularJs-学习笔记（三）"><span class="toc-text">AngularJs 学习笔记（三）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、作用域"><span class="toc-text">一、作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、过滤器"><span class="toc-text">二、过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、依赖注入"><span class="toc-text">三、依赖注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、服务"><span class="toc-text">四、服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、跨域原理"><span class="toc-text">五、跨域原理</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#AngularJs"
+                           title="AngularJs">AngularJs</a>
+                        
+                        <a class="tag" href="/tags/#学习笔记"
+                           title="学习笔记">学习笔记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/MrWoo28">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/people/undefined">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/MrWoo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/MrWooz">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mr.Woo 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Blog by <a href="https://MrWooz.github.io/">Mr.Woo</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://orfhfxx0r.bkt.clouddn.com/image/IMG_0283_meitu_1.jpg">
+</body>
+
+</html>

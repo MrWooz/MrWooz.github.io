@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        AngularJs 学习笔记（二）｜Mr.Woo&#39;s blog
+        AngularJs 学习笔记（四）｜Mr.Woo&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2016/11/28/AngularJs 学习笔记（二）/">
+    <link rel="canonical" href="http://yoursite.com/2016/12/06/AngularJs 学习笔记（四）/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -155,14 +155,14 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>AngularJs 学习笔记（二）</h1>
+                    <h1>AngularJs 学习笔记（四）</h1>
                     
                     <h2 class="subheading">个人笔记整理，有误欢迎指正</h2>
                     
                     <span class="meta">
                          作者 Mr.Woo
                         <span>
-                          日期 2016-11-28
+                          日期 2016-12-06
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -180,7 +180,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            AngularJs 学习笔记（二）
+            AngularJs 学习笔记（四）
         </span>
     </div>
 </header>
@@ -191,174 +191,72 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h1 id="AngularJs-学习笔记（二）"><a href="#AngularJs-学习笔记（二）" class="headerlink" title="AngularJs 学习笔记（二）"></a>AngularJs 学习笔记（二）</h1><hr>
-<h3 id="一、AngularJs内置指令"><a href="#一、AngularJs内置指令" class="headerlink" title="一、AngularJs内置指令"></a>一、AngularJs内置指令</h3><p>HTML在构建应用（App）时存在诸多不足之处，AngularJS通过扩展一系列的HTML属性或标签来弥补这些缺陷，<strong>所谓指令就是AngularJS自定义的HTML属性或标签</strong>，这些指令都是以ng-做为前缀的，例如ng-app、ng-controller、ng-repeat等。</p>
+                <h1 id="AngularJs-学习笔记（四）"><a href="#AngularJs-学习笔记（四）" class="headerlink" title="AngularJs 学习笔记（四）"></a>AngularJs 学习笔记（四）</h1><hr>
+<h3 id="AngularJs配置块和运行块"><a href="#AngularJs配置块和运行块" class="headerlink" title="AngularJs配置块和运行块"></a>AngularJs配置块和运行块</h3><h3 id="一、配置块"><a href="#一、配置块" class="headerlink" title="一、配置块"></a>一、配置块</h3><p>AngularJS模块可以在被加载和执行之前对其自身进行配置。我们可以在应用的加载阶段配置不同的逻辑。</p>
+<p><img src="http://orfhfxx0r.bkt.clouddn.com/angular/AngularJs%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png" alt=""></p>
 <ul>
-<li>ng-app 指定应用根元素，至少有一个</li>
-<li>ng-controller 指定控制器</li>
-<li>ng-show 控制器元素是否显示， true显示、false不显示</li>
-<li>ng-hide控制元素是否隐藏，true隐藏、false不隐藏</li>
-<li>ng-if控制元素是否“存在”，true存在、false不存在</li>
-<li>ng-src增强图片路径</li>
-<li>ng-href增强地址</li>
-<li>ng-class控制类名</li>
-<li>ng-include引入模板</li>
-<li>ng-disabled表单禁用</li>
-<li>ng-readonly表单只读</li>
-<li>ng-checked单/复选框表单选中</li>
-<li>ng-selected下拉框表单选中</li>
+<li><p>通过config方法实现对模块的配置，AngularJs中的服务大部分都对应 一个“provider”</p>
+</li>
+<li><p>用来执行与之对应的服务相同的功能或对其进行配置。</p>
+</li>
+<li>比如$log、$http、$location都是内置服务，其相应的“provider”分别是$logProvider、$httpProvider、$locationProvider</li>
 </ul>
-<pre><code>&lt;script&gt;
-内置指令：angular开始为html内置好的一些特定功能的属性标签。
-当解析到ng代码时，会回到html当中解析自己的指令。
- var app = angular.module(&apos;app&apos;,[]);
- app.controller(&apos;xmgControler&apos;,[&apos;$scope&apos;,function ($scope) {
-  在模型上绑定数据
-     $scope.isShow = 1;
-     $scope.path = &quot;image/03.jpg&quot;;
-     $scope.name = &quot;xmg&quot;;
-     $scope.active = false;
-     $scope.sty = {
-     &apos;font-size&apos;: &apos;30px&apos;
- };
+<pre><code>var app = angular.module(&apos;app&apos;,[]);
+app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;$log&apos;,function ($scope,$log) {
+
+ $log.debug(&apos;调试信息&apos;);
+ $log.debug(&apos;调试信息&apos;);
+ $scope.price = &quot;hello&quot;;
+
+}]);
+
+配置过程
+* $http
+* $log
+* $filter
+* provider 在每一个服务当中都会有一个provider来指定的功能进行配置
+
+app.config([&apos;$logProvider&apos;,function ($logProvider) {
+     $logProvider.debugEnabled(false);
+}]);
+
+app.config([&apos;$filterProvider&apos;,function ($filterProvider) {
+
+     $filterProvider.register(&apos;firstUpp&apos;,function () {
+
+          可以在配置过程中，给过滤器添加过滤功能
+         return function (input) {
+          return input[0].toUpperCase() + input.slice(1);
+       }
+    })
  }]);
-&lt;/script&gt;
-
-&lt;body ng-app=&quot;app&quot; ng-controller=&quot;xmgControler&quot;&gt;
-
-它的做法，其实就是相当设置样式display:none
-&lt;p ng-show=&quot;isShow&quot;&gt;ng-show 控制标签是否显示&lt;/p&gt;
-
-ng-hide控制标签是否隐藏 取值为bool （true/false 1/0）
-&lt;p ng-hide=&quot;false&quot;&gt;ng-hide控制标签是否隐藏 取值为
-bool （true/false 1/0）&lt;/p&gt;
-
-ng-if控制标签是否存在 取值为bool （true/false 1/0）
-&lt;p ng-if=&quot;false&quot;&gt;ng-if控制标签是否存在 取值为
-bool （true/false 1/0）&lt;/p&gt;
-
-使用ng-src加载图片
-&lt;img ng-src=&quot;{{path}}&quot; alt=&quot;&quot;&gt;
-
-使用ng-herf跳转
-&lt;a ng-href=&quot;#&quot;&gt;&lt;/a&gt;
-
-ng-class指令，控制是否添加某个类 为true为添加，为false不添加
-&lt;p ng-class=&quot;{red:active,font:true}&quot;&gt;ng-class指令，控制是否添加某个类&lt;/p&gt;
-
-给当前标签手动添加样式
-&lt;p ng-style=&quot;sty&quot;&gt;ng-style 控制样式&lt;/p&gt;
-
-
-&lt;/body&gt;
-</code></pre><h3 id="二、自定义指令"><a href="#二、自定义指令" class="headerlink" title="二、自定义指令"></a>二、自定义指令</h3><p>AngularJs允许根据实际业务需要自定义指令，通过angular全局对象下的directive方法实现。</p>
-<p>restrict：‘ECMA’ 指令的类型</p>
-<ul>
-<li>E：element元素</li>
-<li>A：attribute属性</li>
-<li>C：class类</li>
-<li>M：mark replace必须为true</li>
+</code></pre><h3 id="二、运行块"><a href="#二、运行块" class="headerlink" title="二、运行块"></a>二、运行块</h3><ul>
+<li>服务也是模块形式存在的且对外提供特定功能</li>
+<li>服务是以依赖注入进去的，然后再进行调用。</li>
+<li>除了这种方式外我们也可以直接运行相应的服务模块</li>
+<li>AngularJs提供了run方法来实现</li>
+<li>run方法还是最先执行的，利用这个特点我们可以将一些需要优先执行的功能通过run方法来运行</li>
+<li>比如验证用户是否登录，未登录则不允许进行任何其他操作</li>
 </ul>
-<p>template：（列表模板）</p>
-<p>templateUrl：‘./head.html’</p>
-<p>replace：true （是否替换原有标签）</p>
-<p>transclude：true （是否保留指令包裹的内容）</p>
-<pre><code>app.directive(&apos;nav&apos;,[function () {
-     return{
-         E:元素 A:属性 C:当作类 M:可以注释形式出
-         restrict:&apos;EA&apos;,
-         //template:&apos;&lt;ul&gt;&lt;li&gt;列表&lt;/li&gt;&lt;/ul&gt;&apos;,
-         templateUrl:&apos;./nav.html&apos;,
-         replace:true 是否替换原标签
+<pre><code>var app = angular.module(&apos;app&apos;,[]);
+ 全局作用域
+ 根作用域
+ ng程序一执行就会调用run
 
-    }
+app.run([&apos;$http&apos;,&apos;$rootScope&apos;,function ($http,$rootScope)
+{
+     $http({
+     url:&apos;jsonp.php&apos;,
+     method:&apos;get&apos;,
+     params:{
+     callback:&quot;woo&quot;
+ }
+ }).success(function (res) {
+     console.log(res);
+     $rootScope.name = res;
+    });
  }]);
-
-
-
-app.directive(&apos;nav&apos;,[function () {
-     return{
-         E:元素 A:属性 C:当作类 M:可以注释形式出
-         restrict:&apos;EA&apos;,
-         //template:&apos;&lt;h1&gt;列表&lt;/h1 &gt;&lt;div ng-transclude&gt;&lt;/div&gt;&apos;,
-         templateUrl:&apos;./nav.html&apos;,
-         replace:true, 是否替换原标签
-
-        transclude:true  是否保留指令包裹的内容，同时跟ng-transclude配合使用
-    }
- }]);
-</code></pre><p>注意点：</p>
-<ul>
-<li>组件：用模板替换指令。</li>
-<li>如果指令名称为大写，在使用时，会使用-小写。例，mrWoo 使用时要用 mr-woo</li>
-</ul>
-<h3 id="三、数据绑定"><a href="#三、数据绑定" class="headerlink" title="三、数据绑定"></a>三、数据绑定</h3><ul>
-<li>AngularJS是以数据做为驱动的MVC框架，所有模型（Model）里的数据经由控制器（Controller）展示到视图（View）中。</li>
-<li>所谓数据绑定指的就是将模型（Model）中的数据与相应的视图（View）进行关联</li>
-</ul>
-<p>1.单向绑定</p>
-<p>指的是把模型的数据展示到视图当中</p>
-<p>绑定的方式有三种：</p>
-<ol>
-<li>使用插值语法：｛｛模型属性｝｝ 加载时，会造成闪烁。可以使用ng-cloak来避免闪烁</li>
-<li>使用ng-bind：ng-bind=“模型属性”  不会造成闪烁，只能绑定一个属性</li>
-<li>使用ng-bind-template=“｛｛模型属性｝｝”  可以绑定多值，不会出现闪烁</li>
-</ol>
-<pre><code>&lt;script&gt;
- var app = angular.module(&apos;app&apos;,[]);
- app.controller(&apos;wooController&apos;,[&apos;$scope&apos;,function ($scope) {
-      数据单向绑定
-     $scope.name = &quot;xmg&quot;;
-     $scope.age = 20;
- }]);
-&lt;/script&gt;
-
-
-&lt;body ng-app=&quot;app&quot;&gt;
-&lt;ul ng-controller=&quot;wooController&quot;&gt;
-     使用｛｛｝｝可以把模型的数据绑定到视图当中
-     加载时，会造成闪烁
-     &lt;li&gt;{{name}}{{age}}&lt;/li&gt;
-     &lt;li ng-cloak&gt;{{name}}{{age}}&lt;/li&gt;
-
-
-      ng-bind绑定 不会造成闪烁 没有办法绑定多个属性
-      &lt;li ng-bind=&quot;name&quot;&gt;&lt;/li&gt;
-
-     可以绑定多个数据。不会造成闪烁
-     &lt;li ng-bind-template=&quot;{{name}}{{age}}&quot;&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre><p>2.双向绑定</p>
-<ul>
-<li>数据双向绑定：视图的数据可以绑定到模型中，模型的数据可以绑定到视图中</li>
-<li>想要实现视图的数据绑定到模型中必须得要借助表单才行</li>
-<li>在表单中使用ng-model指令，在input标签当中绑定属性</li>
-</ul>
-<pre><code>&lt;body ng-app=&quot;app&quot; ng-controller=&quot;wooController&quot;&gt;
-
-模型的数据绑定到视图当中，使用ng-bind指令
-&lt;h1 ng-bind=&quot;name&quot;&gt;&lt;/h1&gt;
-
-数据的双向绑定必须得借助表单才行
-视图的数据绑定到模型中，使用ng-model
-&lt;input type=&quot;text&quot; ng-model=&quot;userName&quot;&gt;
-&lt;input type=&quot;password&quot; ng-model=&quot;pwd&quot;&gt;
-
-监听按钮点击，使用方法ng-click=“事件名称（）”
-&lt;button ng-click=&quot;login()&quot;&gt;登录&lt;/button&gt;
-
-&lt;script&gt;
-     var app = angular.module(&apos;app&apos;,[]);
-     app.controller(&apos;wooController&apos;,[&apos;$scope&apos;,function ($scope) {
-         在模型中定义name属性
-        $scope.name = &quot;登录&quot;
-        事件的实现
-         $scope.login = function () {
-             点击时可以直接打印视图绑定到模型中的数据
-              alert($scope.userName+$scope.pwd);
-         };
-    }]);
-&lt;/script&gt;
 </code></pre>
                 <hr>
                 
@@ -366,14 +264,14 @@ app.directive(&apos;nav&apos;,[function () {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/12/04/AngularJs 学习笔记（三）/" data-toggle="tooltip" data-placement="top"
-                           title="AngularJs 学习笔记（三）"><< 上一篇</a>
+                        <a href="/2016/12/10/AngularJs 学习笔记（五）/" data-toggle="tooltip" data-placement="top"
+                           title="AngularJs 学习笔记（五）"><< 上一篇</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2016/11/23/AngularJs 学习笔记（一）/" data-toggle="tooltip" data-placement="top"
-                           title="AngularJs 学习笔记（一）">下一篇 >></a>
+                        <a href="/2016/12/04/AngularJs 学习笔记（三）/" data-toggle="tooltip" data-placement="top"
+                           title="AngularJs 学习笔记（三）">下一篇 >></a>
                     </li>
                     
                 </ul>
@@ -408,7 +306,7 @@ app.directive(&apos;nav&apos;,[function () {
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AngularJs-学习笔记（二）"><span class="toc-text">AngularJs 学习笔记（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、AngularJs内置指令"><span class="toc-text">一、AngularJs内置指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、自定义指令"><span class="toc-text">二、自定义指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、数据绑定"><span class="toc-text">三、数据绑定</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AngularJs-学习笔记（四）"><span class="toc-text">AngularJs 学习笔记（四）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AngularJs配置块和运行块"><span class="toc-text">AngularJs配置块和运行块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一、配置块"><span class="toc-text">一、配置块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、运行块"><span class="toc-text">二、运行块</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>

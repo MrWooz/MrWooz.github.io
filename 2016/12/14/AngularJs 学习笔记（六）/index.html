@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        AngularJs 学习笔记（二）｜Mr.Woo&#39;s blog
+        AngularJs 学习笔记（六）｜Mr.Woo&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2016/11/28/AngularJs 学习笔记（二）/">
+    <link rel="canonical" href="http://yoursite.com/2016/12/14/AngularJs 学习笔记（六）/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -155,14 +155,14 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>AngularJs 学习笔记（二）</h1>
+                    <h1>AngularJs 学习笔记（六）</h1>
                     
                     <h2 class="subheading">个人笔记整理，有误欢迎指正</h2>
                     
                     <span class="meta">
                          作者 Mr.Woo
                         <span>
-                          日期 2016-11-28
+                          日期 2016-12-14
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -180,7 +180,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            AngularJs 学习笔记（二）
+            AngularJs 学习笔记（六）
         </span>
     </div>
 </header>
@@ -191,189 +191,104 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h1 id="AngularJs-学习笔记（二）"><a href="#AngularJs-学习笔记（二）" class="headerlink" title="AngularJs 学习笔记（二）"></a>AngularJs 学习笔记（二）</h1><hr>
-<h3 id="一、AngularJs内置指令"><a href="#一、AngularJs内置指令" class="headerlink" title="一、AngularJs内置指令"></a>一、AngularJs内置指令</h3><p>HTML在构建应用（App）时存在诸多不足之处，AngularJS通过扩展一系列的HTML属性或标签来弥补这些缺陷，<strong>所谓指令就是AngularJS自定义的HTML属性或标签</strong>，这些指令都是以ng-做为前缀的，例如ng-app、ng-controller、ng-repeat等。</p>
+                <h1 id="AngularJs-学习笔记（六）"><a href="#AngularJs-学习笔记（六）" class="headerlink" title="AngularJs 学习笔记（六）"></a>AngularJs 学习笔记（六）</h1><hr>
+<h3 id="一、AngularJs内置jQLite对象"><a href="#一、AngularJs内置jQLite对象" class="headerlink" title="一、AngularJs内置jQLite对象"></a>一、AngularJs内置jQLite对象</h3><p>1.angularjs里面内置了jquery的部分功能，可被我们使用。</p>
+<pre><code>var box = document.querySelector(&apos;.box&apos;);
+//把一个DOM对象转成内置的jQLite对象
+box = angular.element(box);
+box.css({
+
+    &apos;width&apos;:&apos;100px&apos;,
+    &apos;height&apos;:&apos;100px&apos;
+})
+</code></pre><p>2.jQLite只有jQuery中的基本功能，如果想使用jQuery的所有功能，那么只需导入jquery文件</p>
+<h3 id="二、指令的作用域"><a href="#二、指令的作用域" class="headerlink" title="二、指令的作用域"></a>二、指令的作用域</h3><p>1.每自定义一个指令，都有自己的作用域 </p>
+<p>自定义指令，默认情况下，父子之间使用一个作用域$scope</p>
 <ul>
-<li>ng-app 指定应用根元素，至少有一个</li>
-<li>ng-controller 指定控制器</li>
-<li>ng-show 控制器元素是否显示， true显示、false不显示</li>
-<li>ng-hide控制元素是否隐藏，true隐藏、false不隐藏</li>
-<li>ng-if控制元素是否“存在”，true存在、false不存在</li>
-<li>ng-src增强图片路径</li>
-<li>ng-href增强地址</li>
-<li>ng-class控制类名</li>
-<li>ng-include引入模板</li>
-<li>ng-disabled表单禁用</li>
-<li>ng-readonly表单只读</li>
-<li>ng-checked单/复选框表单选中</li>
-<li>ng-selected下拉框表单选中</li>
+<li>在自定义指令属性中 scope可用来修改作用域，值有两种类型：（true/false）</li>
+<li>为true时，父作用域修改时会影响子作用域；子作用域修改时，不会影响父作用域；当子的修改过完后，就互不影响</li>
+<li>为false时，跟默认情况下一样，使用的是同一作用域</li>
 </ul>
-<pre><code>&lt;script&gt;
-内置指令：angular开始为html内置好的一些特定功能的属性标签。
-当解析到ng代码时，会回到html当中解析自己的指令。
- var app = angular.module(&apos;app&apos;,[]);
- app.controller(&apos;xmgControler&apos;,[&apos;$scope&apos;,function ($scope) {
-  在模型上绑定数据
-     $scope.isShow = 1;
-     $scope.path = &quot;image/03.jpg&quot;;
-     $scope.name = &quot;xmg&quot;;
-     $scope.active = false;
-     $scope.sty = {
-     &apos;font-size&apos;: &apos;30px&apos;
- };
- }]);
-&lt;/script&gt;
-
-&lt;body ng-app=&quot;app&quot; ng-controller=&quot;xmgControler&quot;&gt;
-
-它的做法，其实就是相当设置样式display:none
-&lt;p ng-show=&quot;isShow&quot;&gt;ng-show 控制标签是否显示&lt;/p&gt;
-
-ng-hide控制标签是否隐藏 取值为bool （true/false 1/0）
-&lt;p ng-hide=&quot;false&quot;&gt;ng-hide控制标签是否隐藏 取值为
-bool （true/false 1/0）&lt;/p&gt;
-
-ng-if控制标签是否存在 取值为bool （true/false 1/0）
-&lt;p ng-if=&quot;false&quot;&gt;ng-if控制标签是否存在 取值为
-bool （true/false 1/0）&lt;/p&gt;
-
-使用ng-src加载图片
-&lt;img ng-src=&quot;{{path}}&quot; alt=&quot;&quot;&gt;
-
-使用ng-herf跳转
-&lt;a ng-href=&quot;#&quot;&gt;&lt;/a&gt;
-
-ng-class指令，控制是否添加某个类 为true为添加，为false不添加
-&lt;p ng-class=&quot;{red:active,font:true}&quot;&gt;ng-class指令，控制是否添加某个类&lt;/p&gt;
-
-给当前标签手动添加样式
-&lt;p ng-style=&quot;sty&quot;&gt;ng-style 控制样式&lt;/p&gt;
-
-
-&lt;/body&gt;
-</code></pre><h3 id="二、自定义指令"><a href="#二、自定义指令" class="headerlink" title="二、自定义指令"></a>二、自定义指令</h3><p>AngularJs允许根据实际业务需要自定义指令，通过angular全局对象下的directive方法实现。</p>
-<p>restrict：‘ECMA’ 指令的类型</p>
+<p>注意：同名字控制器下的作用域是不一样的</p>
+<p>2.scope不传入布尔值，而传入为对象时，它是隔离作用域（跟谁都没有关系）</p>
 <ul>
-<li>E：element元素</li>
-<li>A：attribute属性</li>
-<li>C：class类</li>
-<li>M：mark replace必须为true</li>
+<li>在对象中可以允许外界传入一些参数进来。</li>
+<li>如果有，就用自己的属性，没有的话，就是空，不去找任何人</li>
 </ul>
-<p>template：（列表模板）</p>
-<p>templateUrl：‘./head.html’</p>
-<p>replace：true （是否替换原有标签）</p>
-<p>transclude：true （是否保留指令包裹的内容）</p>
-<pre><code>app.directive(&apos;nav&apos;,[function () {
-     return{
-         E:元素 A:属性 C:当作类 M:可以注释形式出
-         restrict:&apos;EA&apos;,
-         //template:&apos;&lt;ul&gt;&lt;li&gt;列表&lt;/li&gt;&lt;/ul&gt;&apos;,
-         templateUrl:&apos;./nav.html&apos;,
-         replace:true 是否替换原标签
+<p>3.在scope中传入对象时，可指定修饰符</p>
+<pre><code>scope:{
+
+    msg:&apos;@&apos;  //@--&gt;特点：1.传值时必须使用插值语法 &lt;div msg=&apos;{{woo}}&apos;&gt;&lt;/div&gt;
+                        2.属于单向传递(父会影响子 子不会影响父)
+
+
+
+    name:&apos;=&apos;  //= --&gt;特点：1.传值不需要使用插值语法，直接使用属性名称 &lt;div name=&apos;属性名称&apos;&gt;&lt;/div&gt;
+                           2.属于双向传递（父子之间互相影响）
+
+
+    show:&apos;&amp;&apos;  //&amp; --&gt;特点：1.要求外界传入一个方法 &lt;div show=&apos;方法名称()&apos;&gt;&lt;/div&gt;
+}
+</code></pre><p><strong>一个指令，本身可以通过模板传给我们的值，我们展示该值。但是可以通过修饰符通过外界来传递我们想要的值，而不会写死了数据，起到灵活性。</strong></p>
+<h3 id="三、指令–link"><a href="#三、指令–link" class="headerlink" title="三、指令–link"></a>三、指令–link</h3><pre><code>app.directive(&apos;woo&apos;,function (){
+
+    return{
+
+        restrict:&apos;A&apos;,
+        link: function ($scope,ele,attr) {
+
+            console.log(ele);  //打印出来的是整个标签
+
+            console.log(attr);  //打印出来的是标签的属性
+
+        }
 
     }
- }]);
 
+})
+</code></pre><p>link里面有三个参数：</p>
+<ul>
+<li>$scope： 当前指令的作用域</li>
+<li>ele： 当前指令所在的标签（它是jQLite对象）</li>
+<li>attr： 指令身上绑定的属性，可以获取到绑定的属性</li>
+</ul>
+<pre><code>app.directive(&apos;woo&apos;,function (){
 
+return{
 
-app.directive(&apos;nav&apos;,[function () {
-     return{
-         E:元素 A:属性 C:当作类 M:可以注释形式出
-         restrict:&apos;EA&apos;,
-         //template:&apos;&lt;h1&gt;列表&lt;/h1 &gt;&lt;div ng-transclude&gt;&lt;/div&gt;&apos;,
-         templateUrl:&apos;./nav.html&apos;,
-         replace:true, 是否替换原标签
+    restrict:&apos;A&apos;,
+    controller:function(){ 
 
-        transclude:true  是否保留指令包裹的内容，同时跟ng-transclude配合使用
+        alert(1);
     }
- }]);
-</code></pre><p>注意点：</p>
-<ul>
-<li>组件：用模板替换指令。</li>
-<li>如果指令名称为大写，在使用时，会使用-小写。例，mrWoo 使用时要用 mr-woo</li>
+    link: function ($scope,ele,attr) {
+
+        alert(2);
+    }
+ }
+})
+</code></pre><ul>
+<li><p>以上先执行controller，是在一创建指令时就执行了 不管dom有没有加载完成。一般在控制器当中只做业务逻辑处理，不牵扯任何dom</p>
+</li>
+<li><p>后执行link，当所有的dom节点加载完成时才去调用。既可做业务逻辑，也可以处理dom，主要处理dom元素。</p>
+</li>
 </ul>
-<h3 id="三、数据绑定"><a href="#三、数据绑定" class="headerlink" title="三、数据绑定"></a>三、数据绑定</h3><ul>
-<li>AngularJS是以数据做为驱动的MVC框架，所有模型（Model）里的数据经由控制器（Controller）展示到视图（View）中。</li>
-<li>所谓数据绑定指的就是将模型（Model）中的数据与相应的视图（View）进行关联</li>
-</ul>
-<p>1.单向绑定</p>
-<p>指的是把模型的数据展示到视图当中</p>
-<p>绑定的方式有三种：</p>
-<ol>
-<li>使用插值语法：｛｛模型属性｝｝ 加载时，会造成闪烁。可以使用ng-cloak来避免闪烁</li>
-<li>使用ng-bind：ng-bind=“模型属性”  不会造成闪烁，只能绑定一个属性</li>
-<li>使用ng-bind-template=“｛｛模型属性｝｝”  可以绑定多值，不会出现闪烁</li>
-</ol>
-<pre><code>&lt;script&gt;
- var app = angular.module(&apos;app&apos;,[]);
- app.controller(&apos;wooController&apos;,[&apos;$scope&apos;,function ($scope) {
-      数据单向绑定
-     $scope.name = &quot;xmg&quot;;
-     $scope.age = 20;
- }]);
-&lt;/script&gt;
+<p>其实除了controller和link外，还有compile，它主要是在开始编译时来调用，里面没有$scope。当有compile时，link不会执行。</p>
 
-
-&lt;body ng-app=&quot;app&quot;&gt;
-&lt;ul ng-controller=&quot;wooController&quot;&gt;
-     使用｛｛｝｝可以把模型的数据绑定到视图当中
-     加载时，会造成闪烁
-     &lt;li&gt;{{name}}{{age}}&lt;/li&gt;
-     &lt;li ng-cloak&gt;{{name}}{{age}}&lt;/li&gt;
-
-
-      ng-bind绑定 不会造成闪烁 没有办法绑定多个属性
-      &lt;li ng-bind=&quot;name&quot;&gt;&lt;/li&gt;
-
-     可以绑定多个数据。不会造成闪烁
-     &lt;li ng-bind-template=&quot;{{name}}{{age}}&quot;&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre><p>2.双向绑定</p>
-<ul>
-<li>数据双向绑定：视图的数据可以绑定到模型中，模型的数据可以绑定到视图中</li>
-<li>想要实现视图的数据绑定到模型中必须得要借助表单才行</li>
-<li>在表单中使用ng-model指令，在input标签当中绑定属性</li>
-</ul>
-<pre><code>&lt;body ng-app=&quot;app&quot; ng-controller=&quot;wooController&quot;&gt;
-
-模型的数据绑定到视图当中，使用ng-bind指令
-&lt;h1 ng-bind=&quot;name&quot;&gt;&lt;/h1&gt;
-
-数据的双向绑定必须得借助表单才行
-视图的数据绑定到模型中，使用ng-model
-&lt;input type=&quot;text&quot; ng-model=&quot;userName&quot;&gt;
-&lt;input type=&quot;password&quot; ng-model=&quot;pwd&quot;&gt;
-
-监听按钮点击，使用方法ng-click=“事件名称（）”
-&lt;button ng-click=&quot;login()&quot;&gt;登录&lt;/button&gt;
-
-&lt;script&gt;
-     var app = angular.module(&apos;app&apos;,[]);
-     app.controller(&apos;wooController&apos;,[&apos;$scope&apos;,function ($scope) {
-         在模型中定义name属性
-        $scope.name = &quot;登录&quot;
-        事件的实现
-         $scope.login = function () {
-             点击时可以直接打印视图绑定到模型中的数据
-              alert($scope.userName+$scope.pwd);
-         };
-    }]);
-&lt;/script&gt;
-</code></pre>
                 <hr>
                 
 
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/12/04/AngularJs 学习笔记（三）/" data-toggle="tooltip" data-placement="top"
-                           title="AngularJs 学习笔记（三）"><< 上一篇</a>
+                        <a href="/2017/06/07/hello/" data-toggle="tooltip" data-placement="top"
+                           title="广州地铁计价器"><< 上一篇</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2016/11/23/AngularJs 学习笔记（一）/" data-toggle="tooltip" data-placement="top"
-                           title="AngularJs 学习笔记（一）">下一篇 >></a>
+                        <a href="/2016/12/11/Angular实现nba选票demo/" data-toggle="tooltip" data-placement="top"
+                           title="AngularJs 实现nba选票demo ">下一篇 >></a>
                     </li>
                     
                 </ul>
@@ -408,7 +323,7 @@ app.directive(&apos;nav&apos;,[function () {
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AngularJs-学习笔记（二）"><span class="toc-text">AngularJs 学习笔记（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、AngularJs内置指令"><span class="toc-text">一、AngularJs内置指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、自定义指令"><span class="toc-text">二、自定义指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、数据绑定"><span class="toc-text">三、数据绑定</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AngularJs-学习笔记（六）"><span class="toc-text">AngularJs 学习笔记（六）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、AngularJs内置jQLite对象"><span class="toc-text">一、AngularJs内置jQLite对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、指令的作用域"><span class="toc-text">二、指令的作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、指令–link"><span class="toc-text">三、指令–link</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>

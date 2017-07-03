@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello My Blog｜Mr.Woo&#39;s blog
+        算法（三）—— 桶排序｜Mr.Woo&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2015/10/23/first/">
+    <link rel="canonical" href="http://yoursite.com/2015/12/15/算法（三）—— 桶排序/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -138,13 +138,13 @@
 
 
 <img class="wechat-title-img"
-     src="http://orfhfxx0r.bkt.clouddn.com/image/1.jpg">
+     src="http://orfhfxx0r.bkt.clouddn.com/algorithm/algorithm_logo.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://orfhfxx0r.bkt.clouddn.com/image/1.jpg')
+        background-image: url('http://orfhfxx0r.bkt.clouddn.com/algorithm/algorithm_logo.jpg')
     }
 
     
@@ -155,20 +155,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello My Blog</h1>
-                    
-                    <h2 class="subheading">hi, I&#39;m Mr.Woo</h2>
+                    <h1>算法（三）—— 桶排序</h1>
                     
                     <span class="meta">
                          作者 Mr.Woo
                         <span>
-                          日期 2015-10-23
+                          日期 2015-12-15
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#算法"
+                           title="算法">算法</a>
+                        
+                        <a class="tag" href="/tags/#桶排序"
+                           title="桶排序">桶排序</a>
                         
                     </div>
                 </div>
@@ -177,7 +178,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello My Blog
+            算法（三）—— 桶排序
         </span>
     </div>
 </header>
@@ -188,8 +189,83 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Hello World！</p>
-<p>在今天本人写下的第一条博文。</p>
+                <h1 id="算法（三）——-桶排序"><a href="#算法（三）——-桶排序" class="headerlink" title="算法（三）—— 桶排序"></a>算法（三）—— 桶排序</h1><hr>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>桶排序可以说得上是最简单的排序算法了，但是它的使用范围非常狭窄，不过不可否认的是在其适用范围内，它的性能要比快速排序还要快上很多倍。</p>
+<p>没错，桶排序也是一种非比较型排序算法，这也正是它能够超越快速排序的原因。</p>
+<p>桶排序主要有以下缺陷：</p>
+<ol>
+<li>参与排序的数组存放的必须是整数。</li>
+<li>数组中的最大数和最小数保持在一个合理的间距内。</li>
+<li>需要额外的内存空间。</li>
+</ol>
+<p>下面将通过一个例子讲解桶排序的核心思想：</p>
+<p>假如说我们需要对全国高考语文成绩进行排序，由于总分只有 150 分，而且所有的值都在 [0, 150] 之间，所以我们可以申请一个大小为 151 的辅助数组。</p>
+<pre><code>var countArray = [];
+for(var i = 0; i &amp;lt;= 150; i++) {
+    countArray[i] = 0;
+}
+</code></pre><p>首先我们将数组的值都置为 0。然后我们以各考生的成绩为下标递增辅助数组的值。比如说一个考生成绩为 90，那么我们就让 <code>countArray[90]++</code>，这样一直运算下去，直到所有的考生成绩都被遍历完，我们就可以统计出来每个分数有多少考生，然后再将辅助数组中的值复制回原数组，整个数组自然而然就有序了！</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>大概了解了桶排序的思想，下面就来实现一下，假说某年参加高考的学生共有 500 万人，我们对其语文成绩进行排序。</p>
+<p>下面是排序代码：</p>
+<pre><code>function countSort(array, k) {
+    var length = array.length,
+        countArray = [],
+        i;
+
+    for (i = 0; i &amp;lt; k; i++) {
+        countArray[i] = 0;
+    }
+
+    for (i = 0; i &amp;lt; length; i++) {
+        countArray[array[i]]++;
+    }
+
+    var z = 0;
+    for (i = 0; i &amp;lt; k; i++) {
+        while (countArray[i]-- &amp;gt; 0) {
+            array[z++] = i;
+        }
+    }
+}
+</code></pre><p>下面是测试代码：</p>
+<pre><code>var array = [];
+
+for(var i = 0; i &amp;lt; 5000000; i++) {
+    array.push(Math.floor(Math.random() * 151));
+}
+
+console.time();
+countSort(array,151);
+console.timeEnd();
+console.log(array);
+</code></pre><p>以上代码在我电脑上的运行时间在 23ms 左右，可见，桶排序排序 500万数据的速度是如此之快，而我用快速排序对同一个数组进行排序，花了 320 ms 左右。</p>
+<p>所以，如果在合适的时机选择计数排序，将节省很多时间。</p>
+<h3 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h3><p>看了以上代码也许你发现了，上述代码如果排序一个数值在 [10000, 10200] 范围内的数组的话，将申请大量的内存，为了节省内存，我们不得不改进这个算法，让其适应指定范围内排序。</p>
+<p>很简单的，我们可以在方法中设置一个 <code>low</code>和 <code>max</code> 参数，就可以灵活自如了。</p>
+<pre><code>function countSort(array, low, max) {
+    var length = array.length,
+        countArray = [],
+        i,
+        k = max - low + 1;
+
+    for (i = 0; i &amp;lt; k; i++) {
+        countArray[i] = 0;
+    }
+
+    for (i = 0; i &amp;lt; length; i++) {
+        countArray[array[i] - low]++;
+    }
+
+    var z = 0;
+    for (i = 0; i &amp;lt; k; i++) {
+        while (countArray[i]-- &amp;gt; 0) {
+            array[z++] = i + low;
+        }
+    }
+
+    console.log(countArray.length);
+}
+</code></pre><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>最近一直在学习排序算法，发现比较型算法虽然速度比较慢一些(比较型算法的下限是 <code>O(NlogN))</code>，但是适用范围很广。非比较型算法虽然使用范围很有限，但是其速度非常之快。所以在选择排序算法时，根据程序的数值类型以及范围，首先要考虑是否能够使用非比较型算法，如果不可以再选用比较型算法，比如快速排序。</p>
 
                 <hr>
                 
@@ -197,10 +273,15 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/11/13/算法（一）——二分法/" data-toggle="tooltip" data-placement="top"
-                           title="算法（一）—— 二分法查找"><< 上一篇</a>
+                        <a href="/2016/11/23/AngularJs 学习笔记（一）/" data-toggle="tooltip" data-placement="top"
+                           title="AngularJs 学习笔记（一）"><< 上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2015/11/23/算法（二）—— 快速排序/" data-toggle="tooltip" data-placement="top"
+                           title="算法（二）—— 快速排序">下一篇 >></a>
+                    </li>
                     
                 </ul>
 
@@ -234,7 +315,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#算法（三）——-桶排序"><span class="toc-text">算法（三）—— 桶排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改进"><span class="toc-text">改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -256,8 +337,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#算法"
+                           title="算法">算法</a>
+                        
+                        <a class="tag" href="/tags/#桶排序"
+                           title="桶排序">桶排序</a>
                         
                     </div>
                 </section>

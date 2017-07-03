@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello My Blog｜Mr.Woo&#39;s blog
+        算法（一）—— 二分法查找｜Mr.Woo&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2015/10/23/first/">
+    <link rel="canonical" href="http://yoursite.com/2015/11/13/算法（一）——二分法/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -138,13 +138,13 @@
 
 
 <img class="wechat-title-img"
-     src="http://orfhfxx0r.bkt.clouddn.com/image/1.jpg">
+     src="http://orfhfxx0r.bkt.clouddn.com/algorithm/algorithm_logo.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://orfhfxx0r.bkt.clouddn.com/image/1.jpg')
+        background-image: url('http://orfhfxx0r.bkt.clouddn.com/algorithm/algorithm_logo.jpg')
     }
 
     
@@ -155,20 +155,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello My Blog</h1>
-                    
-                    <h2 class="subheading">hi, I&#39;m Mr.Woo</h2>
+                    <h1>算法（一）—— 二分法查找</h1>
                     
                     <span class="meta">
                          作者 Mr.Woo
                         <span>
-                          日期 2015-10-23
+                          日期 2015-11-13
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#算法"
+                           title="算法">算法</a>
+                        
+                        <a class="tag" href="/tags/#二分法查找"
+                           title="二分法查找">二分法查找</a>
                         
                     </div>
                 </div>
@@ -177,7 +178,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello My Blog
+            算法（一）—— 二分法查找
         </span>
     </div>
 </header>
@@ -188,8 +189,91 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Hello World！</p>
-<p>在今天本人写下的第一条博文。</p>
+                <h1 id="算法（一）——-二分法查找"><a href="#算法（一）——-二分法查找" class="headerlink" title="算法（一）—— 二分法查找"></a>算法（一）—— 二分法查找</h1><hr>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>当我们想在一个数组中查找一个元素的时候，最简单的方法莫过于顺序查找了，不过顺序查找有一个致命的缺点，就是它的性能太低了，比如说在 N 个数据中查找一个指定的元素，其最好的情况是只比较一次就找到了元素，最差情况是比较了 N 次，这也就是说，其平均情况下的比较次数为 <code>(1 + N) / 2</code>。</p>
+<p>之前一篇文章中我提到过，如果想提高一个算法的性能，自然而然的就会想到树这种数据结构，比如对于一个二叉树而言，N 个节点最多也就只有 <code>lgN</code> 层，所以树这种结构总能将一个时间复杂度为 <code>N</code> 的算法降低到 <code>lgN</code>。</p>
+<p>二分查找法查找的过程其实就是就像在一个树中查找元素，因为它每次比较都可以将数组的规模降低一半。所以对于二分查找而言，查找一个元素最多只需要经过 <code>lgN + 1</code> 次比较。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>实现二分查找有两种方法，一种是递归实现方式，一种是非递归实现方式。首先，我们在看看以递归方法实现：</p>
+<pre><code>var binarySearch = function(value, low, high) {
+    if (high &amp;lt; low) {
+        return low;
+    }
+
+    var mid = low + Math.floor((high - low) / 2);
+    var cmp = array[mid] - value;
+    if (cmp &amp;lt; 0) {
+        return binarySearch(value, mid + 1, high);
+    } else if (cmp &amp;gt; 0) {
+        return binarySearch(value, low, mid - 1);
+    } else {
+        return mid;
+    }
+};
+</code></pre><p>注意，由于代码是由 <code>JavaScript</code> 实现的，对于数字而言，它只有一个 <code>number</code> 类型，不像其他高级语言有 <code>int, float, double</code> 具体的划分，所以我们需要利用 <code>Math.floor()</code> 对除法计算的值进行向下取整。</p>
+<p>下面是非递归实现方式：</p>
+<pre><code>var binarySearch2 = function(value, low, high) {
+    var lo = low,
+        hi = high;
+
+    while (lo &amp;lt;= hi) {
+        var mid = lo + Math.floor((hi - lo) / 2),
+            cmp = array[mid] - value;
+
+        if (cmp &amp;gt; 0) {
+            hi = mid - 1;
+        } else if (cmp &amp;lt; 0) {
+            lo = mid + 1;
+        } else {
+            return mid;
+        }
+    }
+
+    return lo;
+};
+</code></pre><p>如果你用二分查找法去查找一个元素，如果那个元素的确存在于数组中，那很好理解，二分查找法会把那个元素的下标返回，但是如果那个元素不在数组中，我们的二分法又会返回什么呢？毫无疑问的是，它一定会返回一个下标给我们，不过返回的这个下标到底是大于要查找的那个元素还是小于要查找的那个元素呢？不妨来做个实验。</p>
+<pre><code>var array = new ArrayList();
+
+for(var i = 1; i &amp;lt; 6; i++) {
+    array.push(i);
+}
+array.push(7);
+array.push(8);
+array.push(9);
+
+var index = array.search(6);
+</code></pre><p>很明显的，我们的数组是 <code>[1,2,3,4,5,7,8,9]</code>, 如果我们要在数组中查找 6, 其查找过程如下:</p>
+<p>第一次查找：<code>low = 0, high = 7, mid = low + (high - low) / 2 = 3</code>, 所以说 <code>array[mid] = 4 &lt; 6</code>， 这个时候重置 <code>low</code> 和 <code>high</code> 的值， <code>low = mid + 1 = 4, high = 7</code>。</p>
+<p>第二次查找： <code>low = 4, high = 7, mid = low + (high - low) / 2 = 5</code>, 因为 <code>array[5] = 7 &gt; 6</code>,所以说需要重置 <code>high</code> 的值，<code>low = 4, high = mid -1 = 4</code>，由于这个时候仍然满足 <code>low &lt;= high</code>， 所以查找过程仍会继续。</p>
+<p>第三次查找： <code>low = 4, high = 4, mid = low + (high - low) / 2 = 4</code>，因为 <code>a[mid] = 5 &lt; 6</code>， 所以这时候需要重新调整 <code>low</code> 的值，<code>low = mid + 1 = 5</code>，由于这时候已经不满足 <code>low &lt;= high</code>， 所以跳出循环。</p>
+<p>经过上面过程的讨论，你可能发现了，其实如果我们要查找的元素不在数组中的话，那么返回的元素恰好大于要查找元素。恰好的意思是说，这个元素是大于 <code>key</code> 的最小键。</p>
+<h3 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h3><p>有的时候，利用二分查找我们还可以实现一些其他的功能，比如大于等于 <code>key</code> 的最小键或者小于等于 <code>key</code> 的最大键。</p>
+<p>在上面的讨论中我们已经证实了，利用二分查找法返回的下标必然是大于等于 <code>key</code> 的最小键，所以这个函数可以这么写：</p>
+<pre><code>this.ceiling = function(value) {
+    var index = this.search(value);
+    return this.get(index);
+};
+</code></pre><p>对于小于等于 <code>key</code> 的最大键，我们需要多做点判断，主要如下：</p>
+<ol>
+<li>利用二分法是否查找到了元素，如果查找到了直接返回。</li>
+<li>如果没有查找到元素，而且返回了一个元素，由上面我们知道，返回的元素一定是大于 <code>key</code> 的，所以需要进行判断，当前下标是否等于 0， 如果等于 0 则返回 -1， 因为当前数组中已经不可能存在小于 <code>key</code> 的元素。</li>
+<li><p>如果经过上述步骤还是没有任何返回值，那么只需要将查找到的 <code>index -1</code> 返回即可。这也很好理解，因为如果数组中没有查找到要搜寻的元素 <code>key</code>，而是查找到了大于 <code>key</code> 的最小键，所以这时候只需要将下标减 1 的数返回，那么这个数一定是小于 <code>key</code> 的最大数。</p>
+<p> this.floor = function(value) {</p>
+<pre><code>var index = this.search(value);
+
+if(array[index] === value) {
+    return array[index];
+}
+
+if(index === 0) {
+    return -1;
+}
+
+return array[index - 1];
+</code></pre><p> };</p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>按理说，二分查找法已经非常好了，不过它有一个缺点就是要求待查找的数组必须是有序的。所以对于一个随机的数组而言，假设我们利用比较型排序算法，那么排序的时间复杂度为 <code>O(NlgN)</code>, 然后进行查找时间复杂度为 <code>O(lgN)</code>。而且对于一个需要使用二分查找的数组来说，它插入元素的复杂度为 <code>O(2N)</code>。</p>
+<p>所以，我们不得不去寻找一种方法，确保我们的插入和查找元素的时间复杂度都能保持在对数级别。我将会在接下来的文章中讲解这么一种方法，那就是构建二叉查找树。</p>
 
                 <hr>
                 
@@ -197,10 +281,15 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/11/13/算法（一）——二分法/" data-toggle="tooltip" data-placement="top"
-                           title="算法（一）—— 二分法查找"><< 上一篇</a>
+                        <a href="/2015/11/23/算法（二）—— 快速排序/" data-toggle="tooltip" data-placement="top"
+                           title="算法（二）—— 快速排序"><< 上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2015/10/23/first/" data-toggle="tooltip" data-placement="top"
+                           title="Hello My Blog">下一篇 >></a>
+                    </li>
                     
                 </ul>
 
@@ -234,7 +323,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#算法（一）——-二分法查找"><span class="toc-text">算法（一）—— 二分法查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拓展"><span class="toc-text">拓展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -256,8 +345,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#算法"
+                           title="算法">算法</a>
+                        
+                        <a class="tag" href="/tags/#二分法查找"
+                           title="二分法查找">二分法查找</a>
                         
                     </div>
                 </section>

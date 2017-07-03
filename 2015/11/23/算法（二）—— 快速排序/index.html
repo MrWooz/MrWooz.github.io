@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello My Blog｜Mr.Woo&#39;s blog
+        算法（二）—— 快速排序｜Mr.Woo&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2015/10/23/first/">
+    <link rel="canonical" href="http://yoursite.com/2015/11/23/算法（二）—— 快速排序/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -138,13 +138,13 @@
 
 
 <img class="wechat-title-img"
-     src="http://orfhfxx0r.bkt.clouddn.com/image/1.jpg">
+     src="http://orfhfxx0r.bkt.clouddn.com/algorithm/algorithm_logo.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://orfhfxx0r.bkt.clouddn.com/image/1.jpg')
+        background-image: url('http://orfhfxx0r.bkt.clouddn.com/algorithm/algorithm_logo.jpg')
     }
 
     
@@ -155,20 +155,21 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello My Blog</h1>
-                    
-                    <h2 class="subheading">hi, I&#39;m Mr.Woo</h2>
+                    <h1>算法（二）—— 快速排序</h1>
                     
                     <span class="meta">
                          作者 Mr.Woo
                         <span>
-                          日期 2015-10-23
+                          日期 2015-11-23
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#算法"
+                           title="算法">算法</a>
+                        
+                        <a class="tag" href="/tags/#快速排序"
+                           title="快速排序">快速排序</a>
                         
                     </div>
                 </div>
@@ -177,7 +178,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello My Blog
+            算法（二）—— 快速排序
         </span>
     </div>
 </header>
@@ -188,8 +189,106 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Hello World！</p>
-<p>在今天本人写下的第一条博文。</p>
+                <h1 id="算法（二）——-快速排序"><a href="#算法（二）——-快速排序" class="headerlink" title="算法（二）—— 快速排序"></a>算法（二）—— 快速排序</h1><hr>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>快速排序算的上目前使用最广泛的算法了，之所以它这么受欢迎，是因为它是原地排序，而且将长度为 <code>N</code> 的数组排序所需的时间和 <code>NLogN</code> 成正比。快速排序一般都会比归并排序和希尔排序要快，下面来看看快速排序的基本思想。</p>
+<p>快速排序是一种分治的排序算法。它将一个数组分成两个子数组，两部分独立排序。快速排序和归并排序是不同的。归并排序的思想是将两个子数组分别排序，然后再归并两个子数组从而确保整个数组是有序的。而快速排序却不是这样，在快速排序中，只要两个子数组有序了，那么整个大数组也就是有序的了，不需要再进行归并。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>快速排序的步骤主要如下：</p>
+<ol>
+<li>选择一个基准元素 <code>a[j]</code></li>
+<li>保证 <code>a[low] – a[j-1]</code> 中的所有元素都不大于 <code>a[j]</code></li>
+<li>保证 <code>a[j+1] – a[high]</code> 中的所有元素都不小于 <code>a[j]</code></li>
+</ol>
+<p>通过上述步骤可以看出，快速排序的每一次切分都会将一个元素放置在其最终位置上，所以只要递归不断的切分数组，直到每个子数组中都只包含一个元素，那么整个大数组自然而然也就变成有序的了。</p>
+<p>首先，来看看切分函数</p>
+<pre><code>var partition = function(arr, low, high) {
+    var i = low,
+        j = high+1,
+        value = arr[low];
+
+    while(true) {
+        while(arr[++i] &amp;lt; value) {
+            if (i === high) {
+                break;
+            }
+        }
+
+        while(arr[--j] &amp;gt; value) {
+            if (j === low) {
+                break;
+            }
+        }
+
+        if (i &amp;gt;= j) {
+            break;
+        }
+        swap(arr, i, j);
+    }
+
+    swap(arr, low, j);
+    return j;
+};
+</code></pre><p>在切分函数中，首先选择 <code>a[low]</code> 为基准元素，设置游标 <code>i</code> 让其从<br><code>low</code> 开始递增，用于查找比 <code>a[low]</code> 大的元素，一旦查找到就跳出循环。</p>
+<p>设置游标 <code>j</code>， 让其从 <code>high</code> 开始递减，用于查找比 <code>a[low]</code> 小的元素，一旦查找到就跳出循环。</p>
+<p>当 <code>i &lt; j</code> 时，将 <code>i</code>和 <code>j</code>位置的元素交换。当 <code>i &gt;= j</code>的时候，说明在 <code>j</code> 这个位置，说明当 <code>index &lt;= j</code> 的时候，元素都小于或者等于基准元素，当 <code>index &gt; j</code> 都大于基准元素，所以我们需要在跳出大循环的时候将基准元素与 <code>j</code> 位置的元素进行交换，这也就意味着基准元素在此次循环过程中找到了自己的基准位置。</p>
+<p>其实快速排序的核心也就是上面的切分函数，由于在切分过程中返回了一个位置 j，所以接下来的过程也就简单了，只需要在切分 <code>[low, j-1]</code>和 <code>[j+1, high]</code> 区间的元素即可。</p>
+<pre><code>var quickSortRes = function(arr, low, high) {
+    if (high &amp;lt;= low) {
+        return;
+    }
+
+    var j = partition(arr, low, high);
+    quickSortRes(arr, low, j-1);
+    quickSortRes(arr,j+1, high);
+};
+</code></pre><p>利用快速排序，排序 100 0000 个元素的数组，在我电脑上仅需要 120ms 左右，可见它比归并排序要快。不过，值得注意的是，使用快速排序有一个致命的缺点，那就是如果你使用快速排序去排序一个已经有序的数组时，它的运行时间会与 <code>N ^ 2</code> 成正比，反正在我电脑上运行的时候抛出了栈溢出异常。所以使用快速排序最好的一个办法就是在使用前先把数组打乱。</p>
+<p>虽然快速排序性能已经很高了，但是我们仍然有提高快速排序性能的方法。比如之前提到过的插入排序，在小数组排序的时候我们可以将快速排序替换为插入排序，这样会进一步提升快速排序的性能，改进后的代码像下面这样。</p>
+<pre><code>var quickSortRes = function(arr, low, high) {
+    if (high &amp;lt;= low) {
+        return;
+    }
+
+    if((high - low +1) &amp;lt; 10) {
+        insertionSort(arr,low, high);
+        return;
+    }
+
+    var j = partition(arr, low, high);
+    quickSortRes(arr, low, j-1);
+    quickSortRes(arr,j+1, high);
+};
+</code></pre><p>具体多大的小数组换成插入排序呢？一般对于<code>[5,15]</code> 之间规模的小数组都是比较不错的。上述改进在我电脑上将快速排序的时间提升了<code>0 – 20ms</code>不等。咋一看好像并没有改进多少，但是我认为就算能够提升 <code>1ms</code> ，那么我们所做的努力都是值得的！</p>
+<p>对于拥有大量重复元素的数组来说，我们仍有改进快速排序的方法，这个算法就是 <code>Dijkstra</code>提出的 “三向切分快速排序”。 它从左到右遍历数组一次，维护一个指针 <code>lt</code> 使得 <code>a[low ... lt-1]</code> 都小于 <code>v</code>，一个指针 <code>gt</code> 使得 <code>a[gt+1 ... high]</code> 都大于 <code>v</code>，一个指针 <code>i</code> 使得 <code>a[lt ... i-1]</code> 中的元素都等于 <code>v</code>， <code>a[i ... gt]</code> 中的元素还未确定。</p>
+<p>其处理过程如下：</p>
+<ol>
+<li><code>a[i]</code> 小于 <code>v</code>， 将 <code>a[lt]</code> 与 <code>a[i]</code> 交换，将 <code>lt</code> 和 <code>i</code> 都加 1</li>
+<li><code>a[i]</code> 大于 <code>v</code>， 将 <code>a[gt]</code> 和 <code>a[i]</code> 交换，将 <code>gt</code> 减 1</li>
+<li><code>a[i]</code> 等于 <code>v</code>， 将 <code>i</code>加 1</li>
+</ol>
+<p>具体实现如下 ：</p>
+<pre><code>var quick3Way = function(array, low, high) {
+    if (high &amp;lt;= low) {
+        return;
+    }
+    var lt = low,
+        i = low + 1,
+        gt = high,
+        v = array[low];
+
+    while (i &amp;lt;= gt) {
+        var cmp = array[i] - v;
+        if (cmp &amp;lt; 0) {
+            swap(array, lt++, i++);
+        } else if (cmp &amp;gt; 0) {
+            swap(array, i, gt--);
+        } else {
+            i++;
+        }
+    }
+
+    quick3Way(array, low, lt - 1);
+    quick3Way(array, gt + 1, high);
+};
+</code></pre><p>经过我的测试，发现当数组中有大量重复元素的时候，三向快速排序的性能提升十分显著，比如说我向一个数组中插入 100万 个 1 的时候，三向排序耗时 5ms 左右，而普通的快速排序则需要 35ms 左右。所以当我们在为人的年龄或者等级之类的属性排序时，最好使用三向快速排序！</p>
 
                 <hr>
                 
@@ -197,10 +296,15 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/11/13/算法（一）——二分法/" data-toggle="tooltip" data-placement="top"
-                           title="算法（一）—— 二分法查找"><< 上一篇</a>
+                        <a href="/2015/12/15/算法（三）—— 桶排序/" data-toggle="tooltip" data-placement="top"
+                           title="算法（三）—— 桶排序"><< 上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2015/11/13/算法（一）——二分法/" data-toggle="tooltip" data-placement="top"
+                           title="算法（一）—— 二分法查找">下一篇 >></a>
+                    </li>
                     
                 </ul>
 
@@ -234,7 +338,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#算法（二）——-快速排序"><span class="toc-text">算法（二）—— 快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li></ol></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -256,8 +360,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Blog"
-                           title="Blog">Blog</a>
+                        <a class="tag" href="/tags/#算法"
+                           title="算法">算法</a>
+                        
+                        <a class="tag" href="/tags/#快速排序"
+                           title="快速排序">快速排序</a>
                         
                     </div>
                 </section>

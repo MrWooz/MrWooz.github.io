@@ -82,7 +82,7 @@
                         
 							
                         <li>
-                            <a href="/tages/">tages</a>
+                            <a href="/myworks/">个人作品</a>
                         </li>
 							
 						
@@ -90,7 +90,7 @@
                         
 							
                         <li>
-                            <a href="/myworks/">个人作品</a>
+                            <a href="/tages/">tages</a>
                         </li>
 							
 						
@@ -562,11 +562,17 @@ app.controller(&apos;wooController&apos;,
 <li>本质上可看做是一个常量</li>
 <li>常量：其值始终保持不变的量</li>
 <li><p>变量：其值可以发生改变的量</p>
-<p>  var app = angular.module(‘app’,[]);<br>  注入服务<br>  app.controller(‘wooController’,<br>  [‘$scope’,’key’,’version’,function ($scope,key,version) {</p>
-<pre><code>$scope.key = key;
-$scope.version = version;
-</code></pre><p>  }]);<br>  使用服务<br>  app.value(‘version’,’1.0’);<br>  app.value(‘key’,’woo’);</p>
-</li>
+<pre><code>var app = angular.module(&apos;app&apos;,[]);
+注入服务
+app.controller(&apos;wooController&apos;,
+[&apos;$scope&apos;,&apos;key&apos;,&apos;version&apos;,function ($scope,key,version) {
+     $scope.key = key;
+     $scope.version = version;
+}]);
+使用服务
+app.value(&apos;version&apos;,&apos;1.0’);
+app.value(&apos;key&apos;,&apos;woo&apos;);
+</code></pre></li>
 </ul>
 <h3 id="五、跨域原理"><a href="#五、跨域原理" class="headerlink" title="五、跨域原理"></a>五、跨域原理</h3><p>1.什么是跨域？</p>
 <blockquote>
@@ -775,7 +781,7 @@ $scope.version = version;
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Mr.Woo 2017
+                    Copyright &copy; Mr.Woo 2019
                     <br>
                     <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
                     <br>

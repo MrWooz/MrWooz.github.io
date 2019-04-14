@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="baidu-site-verification" content="z0Wp9C7kGD" />
+    <meta name="google-site-verification" content="FCXHNhynKn8Iu6z8wvW_4axOK4W4yk5JaPf8coOO-hk" />
+    <meta name="description" content="吴涛个人博客">
+    <meta name="keyword" content="吴涛 博客 前端">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.jpeg">
+    <link rel="alternate" type="application/atom+xml" title="Mr.Woo" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        promise 与 async｜Mr.Woo&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2019/04/14/promise 与 async/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('/img/bg.jpeg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Mr.Woo
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">主页</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/myworks/">个人作品</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="/img/bg.jpeg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/bg.jpeg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>promise 与 async</h1>
+                    
+                    <h2 class="subheading">个人笔记整理，有误欢迎指正</h2>
+                    
+                    <span class="meta">
+                         作者 Mr.Woo
+                        <span>
+                          日期 2019-04-14
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ES6"
+                           title="ES6">ES6</a>
+                        
+                        <a class="tag" href="/tags/#工作笔记"
+                           title="工作笔记">工作笔记</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            promise 与 async
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="promise-与-async"><a href="#promise-与-async" class="headerlink" title="promise 与 async"></a>promise 与 async</h1><h3 id="一、了解js的执行过程"><a href="#一、了解js的执行过程" class="headerlink" title="一、了解js的执行过程"></a>一、了解js的执行过程</h3><p><img src="/2019/04/14/promise 与 async/js执行过程.jpg" alt=""><br><img src="/2019/04/14/promise 与 async/任务队列中的宏任务与微任务.jpg" alt=""></p>
+<blockquote>
+<p>js一门单线程的脚本语言，它执行代码一般从上往下逐行执行。如果过程中遇到异步操作，则将该操作先挂起到任务队列中，接着继续执行同步代码。待主线程中都执行完毕，询问任务队列中任务是否完成，未完成则逐个执行，直到最终任务队列所有执行完毕。</p>
+<p>其实在任务队列中还会区分宏任务与微任务，正如上图。</p>
+</blockquote>
+<h3 id="二、promise"><a href="#二、promise" class="headerlink" title="二、promise"></a>二、promise</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let a = new Promise(resolve,reject)&#123;</div><div class="line">    resolve(1)</div><div class="line">&#125;.then(function(res)&#123;</div><div class="line">    console.log(res)</div><div class="line">&#125;).catch(function()&#123;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上就是一个简单的promise对象。promise有以下几点特效：</p>
+</blockquote>
+<ol>
+<li>promise属于宏任务</li>
+<li>promise的构造函数是同步，而then里的是异步</li>
+<li>promise状态不可逆</li>
+<li>then或catch return出去的数值会被后面的then或者catch接受</li>
+<li>promise不管返回什么，都会被包装成promise对象，即使返回一个error</li>
+<li>then接收到的如果不是函数，会发生穿透</li>
+<li>promise对象resolve或者reject一个promise对象，前一个promise的状态会由后一个决定</li>
+</ol>
+<h5 id="例子一"><a href="#例子一" class="headerlink" title="例子一"></a>例子一</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">setTimeout(function()&#123;</div><div class="line">    console.log(1)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">let a = new Promise(resolve,reject)&#123;</div><div class="line">    resolve()</div><div class="line">&#125;.then(function(res)&#123;</div><div class="line">    console.log(2)</div><div class="line">&#125;).catch(function()&#123;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以下执行结果是先出2，再出1。setTimeout是微任务，而promise是宏任务，所以先执行了宏任务promise</p>
+</blockquote>
+<h5 id="例子二"><a href="#例子二" class="headerlink" title="例子二"></a>例子二</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">setTimeout(function()&#123;</div><div class="line">    console.log(1)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">let a = new Promise(resolve,reject)&#123;</div><div class="line">    resolve()</div><div class="line">&#125;.then(function(res)&#123;</div><div class="line">    setTimeout(function()&#123;</div><div class="line">        console.log(2)</div><div class="line">    &#125;)</div><div class="line">    console.log(4)</div><div class="line">&#125;).catch(function()&#123;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">setTimeout(function()&#123;</div><div class="line">    console.log(3)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上执行结果为4、 1、3、2 。首先明确promise是宏任务，setTimeout是微任务。promise外面有两个setimeout是微任务，依次被挂起。而在promise中有console4，所以最先执行宏任务出来4。接着发现promise中有微任务setimeout，也被挂起，接着执行所有的微任务也就是1、3、2出来。</p>
+</blockquote>
+<h5 id="例子三"><a href="#例子三" class="headerlink" title="例子三"></a>例子三</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">new Promise(function(res,rej)&#123;</div><div class="line">    console.log(1)</div><div class="line">    res(2)</div><div class="line">&#125;).then(function(res)&#123;</div><div class="line">    console.log(res)</div><div class="line">&#125;)</div><div class="line">console.log(3)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上执行结果为1、3、2 。因为promise的构造函数是同步，而then里的是异步，所以promise的构造函数也在主线程上执行出来1，接着执行外面的3，最后才执行then里面的2</p>
+</blockquote>
+<h5 id="例子四"><a href="#例子四" class="headerlink" title="例子四"></a>例子四</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">new Promise(function(res,rej)&#123;</div><div class="line">    res(2)</div><div class="line">    rej(3)</div><div class="line">&#125;).then(function(res)&#123;</div><div class="line">    console.log(res)</div><div class="line">&#125;).catch(function(err)&#123;</div><div class="line">    console.log(err)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果在pomise中执行了res，是不会再执行catch函数的。虽然也执行了rej，但是内部会阻止其catch。因为promise的状态是不可逆的。</p>
+</blockquote>
+<h5 id="例子五"><a href="#例子五" class="headerlink" title="例子五"></a>例子五</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">let a = new Promise(function(res,rej)&#123;</div><div class="line">       setTimeout(function()&#123;</div><div class="line">            res(b)</div><div class="line">       &#125;,1000)</div><div class="line">&#125;)</div><div class="line">let b = new Promise(function(res,rej)&#123;</div><div class="line">       setTimeout(function()&#123;</div><div class="line">            rej(4)</div><div class="line">       &#125;,2000)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">a.then(function()&#123;</div><div class="line">    console.log(1)</div><div class="line">&#125;).catch(funtion()&#123;</div><div class="line">    console.log(2)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上执行执行的结果是2。根据promise对象resolve或者reject一个promise对象，前一个promise的状态会由后一个决定。第一个promise中执行res出第二个promise对象，所以最终取决于第二个promise执行的结果。假若第一个promise并不是执行出第二个promise对象，而是直接执行出个结果，最终结果又会不一样。</p>
+</blockquote>
+<h3 id="三、async"><a href="#三、async" class="headerlink" title="三、async"></a>三、async</h3><p>async函数特点：</p>
+<ol>
+<li>async函数会返回一个promise对象</li>
+<li>return错误会让返回的promise对象状态为reject</li>
+<li>一般来说await后面的值是一个promise</li>
+<li>内部如果await多个promise对象，则会等所有promise完成后再执行then</li>
+</ol>
+<h5 id="例子一-1"><a href="#例子一-1" class="headerlink" title="例子一"></a>例子一</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">async function a()&#123;</div><div class="line">    await b();</div><div class="line">    return 4</div><div class="line">&#125;</div><div class="line"></div><div class="line">function b()&#123;</div><div class="line">    console.log(3)</div><div class="line">&#125;</div><div class="line"></div><div class="line">a().then(fucntion(res)&#123;</div><div class="line">    console.log(res)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上执行的结果是3、4。在async中returen出是个promise对象，所以then的结果为4。</p>
+</blockquote>
+<h5 id="例子二-1"><a href="#例子二-1" class="headerlink" title="例子二"></a>例子二</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">async function a()&#123;</div><div class="line">    await b();</div><div class="line">    return new error(&apos;error...&apos;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">function b()&#123;</div><div class="line">    console.log(3)</div><div class="line">&#125;</div><div class="line"></div><div class="line">a().then(fucntion(res)&#123;</div><div class="line">    console.log(res)</div><div class="line">&#125;).catch(function(err)&#123;</div><div class="line">    console.log(err)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上执行结果会返回3、和一个错误。正是async函数的第二点特性。</p>
+</blockquote>
+<h5 id="例子三-1"><a href="#例子三-1" class="headerlink" title="例子三"></a>例子三</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">async function a()&#123;</div><div class="line">    let c = await b();</div><div class="line">    return c</div><div class="line">&#125;</div><div class="line"></div><div class="line">function b()&#123;</div><div class="line">    return new Promise(function(res,rej)&#123;</div><div class="line">        res(1)</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">a().then(fucntion(res)&#123;</div><div class="line">    console.log(res)</div><div class="line">&#125;).catch(function(err)&#123;</div><div class="line">    console.log(err)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上执行结果为1。await后面必须跟一个promise对象，才会起到异步效果，不然await只会同步执行。</p>
+</blockquote>
+<h5 id="例子四-1"><a href="#例子四-1" class="headerlink" title="例子四"></a>例子四</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">async function a()&#123;</div><div class="line">    let c = await b();</div><div class="line">    let e = await d();</div><div class="line">    return c+e</div><div class="line">&#125;</div><div class="line"></div><div class="line">function b()&#123;</div><div class="line">    return new Promise(function(res,rej)&#123;</div><div class="line">        setTimeout(function()&#123;</div><div class="line">            res(1)</div><div class="line">        &#125;,1000)</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line">function d()&#123;</div><div class="line">    return new Promise(function(res,rej)&#123;</div><div class="line">        setTimeout(function()&#123;</div><div class="line">            res(2)</div><div class="line">        &#125;,5000)</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">a().then(fucntion(res)&#123;</div><div class="line">    console.log(res)</div><div class="line">&#125;).catch(function(err)&#123;</div><div class="line">    console.log(err)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>以上结果会等待5秒输出一个3。正是async函数的第四点特性，会等待所有promise对象执行完成之后输出。像这种特性，正好可以解决如果有多个接口调用，可以利用这点，解决回调嵌套问题。</p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/06/07/广州地铁计价器/" data-toggle="tooltip" data-placement="top"
+                           title="广州地铁计价器">下一篇 >></a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAyMS81NTkw">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#promise-与-async"><span class="toc-text">promise 与 async</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、了解js的执行过程"><span class="toc-text">一、了解js的执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、promise"><span class="toc-text">二、promise</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#例子一"><span class="toc-text">例子一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子二"><span class="toc-text">例子二</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子三"><span class="toc-text">例子三</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子四"><span class="toc-text">例子四</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子五"><span class="toc-text">例子五</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、async"><span class="toc-text">三、async</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#例子一-1"><span class="toc-text">例子一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子二-1"><span class="toc-text">例子二</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子三-1"><span class="toc-text">例子三</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子四-1"><span class="toc-text">例子四</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ES6"
+                           title="ES6">ES6</a>
+                        
+                        <a class="tag" href="/tags/#工作笔记"
+                           title="工作笔记">工作笔记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/MrWoo28">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/people/undefined">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/TT-540">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/MrWooz">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Mr.Woo 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Blog by <a href="https://MrWooz.github.io/">Mr.Woo</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/favicon.jpeg">
+</body>
+
+</html>
